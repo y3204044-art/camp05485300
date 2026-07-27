@@ -4,489 +4,779 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>קעמפ ביה״ז אב פ״ה באופקים</title>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
   <style>
-    /* הגדרות בסיס - עיצוב מודרני, צבעוני ורך */
+    /* משתני עיצוב פרימיום - סגנון טורקיז יוקרתי */
     :root {
-      --bg-color: #f0f2f5;
-      --card-radius: 24px;
-      --glass-bg: rgba(255, 255, 255, 0.7);
-      --glass-border: rgba(255, 255, 255, 0.5);
-      --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.08);
-      --primary-gradient: linear-gradient(135deg, #FF6A00, #EE0979, #9c27b0);
+      --bg-dark: #021215; /* שחור-טורקיז עמוק */
+      --bg-panel: rgba(5, 25, 30, 0.6);
+      --border-glass: rgba(0, 255, 200, 0.15);
+      --text-main: #f0f0f5;
+      --text-muted: #8ab6bb;
+      --transition-smooth: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      --radius-large: 24px;
+      --radius-medium: 16px;
+      --spotlight-blue: rgba(0, 212, 255, 0.15); /* טורקיז מואר */
+      --spotlight-purple: rgba(0, 255, 170, 0.15); /* ירוק-טורקיז זוהר */
+      --spotlight-teal: rgba(14, 150, 160, 0.2); /* טורקיז ים עמוק */
     }
 
     body {
       margin: 0;
-      background-color: var(--bg-color);
-      /* רקע צבעוני עדין ומודרני */
-      background-image: 
-        radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%), 
-        radial-gradient(at 50% 0%, hsla(225,39%,30%,0.05) 0, transparent 50%), 
-        radial-gradient(at 100% 0%, hsla(339,49%,30%,0.05) 0, transparent 50%);
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       font-family: 'Heebo', sans-serif;
-      min-height: 100vh;
       overflow-x: hidden;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
       user-select: none;
-      -webkit-user-select: none;
+      position: relative;
     }
 
-    /* חסימת גרירה ולחיצות מיותרות על מדיה */
-    img, video {
-      pointer-events: none;
-      -webkit-user-drag: none;
-    }
-
-    /* --- סרגל עליון (Header) --- */
-    header {
-      position: sticky;
+    /* --- רקע זרקור צבעוני משייט (Spotlight Animation) --- */
+    .ambient-background {
+      position: fixed;
       top: 0;
-      z-index: 100;
-      padding: 20px;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .spotlight {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: float 20s infinite alternate ease-in-out;
+      opacity: 0.6;
+    }
+
+    .spotlight-1 {
+      width: 50vw; height: 50vw;
+      background: var(--spotlight-blue);
+      top: -10%; left: -10%;
+      animation-duration: 25s;
+    }
+
+    .spotlight-2 {
+      width: 40vw; height: 40vw;
+      background: var(--spotlight-purple);
+      bottom: -10%; right: -5%;
+      animation-duration: 30s;
+      animation-delay: -5s;
+    }
+
+    .spotlight-3 {
+      width: 30vw; height: 30vw;
+      background: var(--spotlight-teal);
+      top: 40%; left: 40%;
+      animation-duration: 35s;
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(10vw, 10vh) scale(1.1); }
+      100% { transform: translate(-5vw, -5vh) scale(0.9); }
+    }
+    /* ---------------------------------------------------- */
+
+    /* עיצוב פס גלילה חכם */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+    img, video { pointer-events: none; -webkit-user-drag: none; }
+
+    header {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 1200px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-large);
+      padding: 15px 25px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 15px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--glass-border);
-      box-shadow: var(--shadow-soft);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+      z-index: 100;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+      transition: var(--transition-smooth);
     }
 
     header.scrolled {
-      transform: translateY(-100%);
-      opacity: 0;
+      top: -200px; /* נעלם למעלה כשגוללים כדי לפנות מסך */
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* לוגו צדדי */
+    .header-logo {
+      height: 60px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .title-wrapper {
+      text-align: center;
     }
 
     h1 {
       margin: 0;
-      font-size: 2.8rem;
-      font-weight: 900;
-      background: var(--primary-gradient);
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, #aab);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-align: center;
-      letter-spacing: -1px;
     }
 
-    /* כפתורי סינון */
-    .filters {
+    .subtitle {
+      margin: 2px 0 0 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 12px;
+      width: 100%;
     }
 
-    .filter-btn {
-      background: #fff;
+    .tool-group {
+      display: flex;
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      padding: 4px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .btn {
+      background: transparent;
+      color: var(--text-muted);
       border: none;
-      padding: 10px 24px;
-      border-radius: 30px;
-      font-family: 'Heebo', sans-serif;
-      font-size: 1rem;
+      padding: 8px 16px;
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 0.9rem;
       font-weight: 500;
-      color: #333;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .filter-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    .btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .btn.active {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .btn-glow {
+      background: rgba(45, 110, 255, 0.15);
+      color: #8bb4ff;
+      border: 1px solid rgba(45, 110, 255, 0.3);
+    }
+    .btn-glow:hover {
+      background: rgba(45, 110, 255, 0.25);
+      box-shadow: 0 0 15px rgba(45, 110, 255, 0.4);
+      color: #fff;
     }
 
-    .filter-btn.active {
-      background: var(--primary-gradient);
-      color: white;
-      box-shadow: 0 8px 20px rgba(238, 9, 121, 0.3);
-    }
-
-    /* --- תצוגת הגלריה (Masonry Layout) --- */
-    .gallery-container {
-      padding: 30px 20px;
+    .gallery-wrapper {
+      padding: 180px 20px 60px; /* מרווח מלמעלה לסרגל החכם */
       max-width: 1800px;
       margin: 0 auto;
-      /* הגדרת כמות עמודות לפי גודל מסך - תצוגה צפופה ויפה */
-      column-count: 5;
-      column-gap: 20px;
     }
 
-    @media (max-width: 1400px) { .gallery-container { column-count: 4; } }
-    @media (max-width: 1000px) { .gallery-container { column-count: 3; } }
-    @media (max-width: 700px)  { .gallery-container { column-count: 2; } }
-    @media (max-width: 450px)  { .gallery-container { column-count: 1; } }
+    .gallery-container {
+      display: grid;
+      gap: 25px;
+      transition: all 0.5s ease;
+    }
+
+    /* מצבי גודל נשלטים מ-JS */
+    .gallery-container[data-size="small"] { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+    .gallery-container[data-size="medium"] { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .gallery-container[data-size="large"] { grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); }
+
+    /* מצב תצוגה חופשית (Masonry) - שימוש במערך טורי */
+    .gallery-container.masonry-mode {
+      display: block; /* ביטול הגריד */
+      columns: 4 280px; /* 4 טורים עקרונית, ברוחב מינימלי */
+      column-gap: 25px;
+    }
+    .gallery-container.masonry-mode[data-size="small"] { columns: 6 160px; column-gap: 15px; }
+    .gallery-container.masonry-mode[data-size="large"] { columns: 3 450px; }
+
+    .gallery-container.masonry-mode .media-card {
+      break-inside: avoid;
+      margin-bottom: 25px;
+    }
+
+
+    /* מצב השתקפות */
+    .reflective-mode .media-card {
+      -webkit-box-reflect: below 8px linear-gradient(transparent 75%, rgba(0,0,0,0.3));
+      margin-bottom: 40px; 
+    }
 
     .media-card {
-      break-inside: avoid;
-      margin-bottom: 20px;
       position: relative;
-      border-radius: var(--card-radius);
+      background: var(--bg-panel);
+      border-radius: var(--radius-medium);
       overflow: hidden;
-      background: #fff;
-      box-shadow: var(--shadow-soft);
-      cursor: pointer;
+      border: 1px solid var(--border-glass);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      aspect-ratio: auto; /* מאפשר תמונות בגבהים שונים אם לא חותכים */
       transform: scale(0.95);
       opacity: 0;
-      animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: smoothReveal 0.6s var(--transition-smooth) forwards;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      /* כדי למנוע קפיצות בגריד רגיל, מגדירים יחס סביר */
+    }
+    
+    /* אפקט הזרקור שמאיר על הכרטיסייה במעבר עכבר */
+    .media-card::before {
+      content: "";
+      position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(0, 255, 200, 0.2) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 3;
+    }
+    
+    .media-card:hover::before {
+      opacity: 1;
     }
 
-    @keyframes popIn {
+    /* בגריד רגיל - חותכים לריבוע/מלבן שווה */
+    .gallery-container:not(.masonry-mode) .media-card {
+        aspect-ratio: 4/3;
+    }
+
+
+    @keyframes smoothReveal {
       to { transform: scale(1); opacity: 1; }
     }
 
     .media-card:hover {
-      transform: scale(1.03) translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-      z-index: 10;
+      transform: translateY(-5px) scale(1.02);
+      border-color: rgba(255,255,255,0.4);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.08);
+      z-index: 2;
     }
 
     .media-item {
       width: 100%;
-      display: block;
-      border-radius: var(--card-radius);
+      height: 100%;
       object-fit: cover;
+      background: #111;
+      opacity: 0.9;
+      transition: opacity 0.4s ease;
+      display: block; /* חשוב למייסונרי */
     }
+    .media-card:hover .media-item { opacity: 1; }
 
-    .video-badge {
+    .video-indicator {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 10px; right: 10px;
       background: rgba(0,0,0,0.6);
-      color: white;
+      backdrop-filter: blur(8px);
       padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      backdrop-filter: blur(4px);
+      border-radius: 12px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border-glass);
       z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    /* שכבת הגנה בלחיצה */
+    /* שכבת מגן נגד גניבות */
     .protection-overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       z-index: 5;
+      cursor: zoom-in;
     }
 
-    /* --- מסך מלא (Modal Lightbox) --- */
+    /* מודאל מסך מלא יוקרתי */
     .modal {
-      display: none;
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      z-index: 9999;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(5, 5, 7, 0.95);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      z-index: 1000;
+      display: flex;
       justify-content: center;
       align-items: center;
       opacity: 0;
+      pointer-events: none;
       transition: opacity 0.4s ease;
     }
 
     .modal.active {
-      display: flex;
       opacity: 1;
+      pointer-events: auto;
     }
 
-    .modal-content {
+    .modal-content-wrapper {
       position: relative;
-      max-width: 95vw;
-      max-height: 90vh;
-      border-radius: var(--card-radius);
-      box-shadow: 0 0 60px rgba(0,0,0,0.8);
-      transform: scale(0.8);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .modal.active .modal-content {
-      transform: scale(1);
-    }
-
-    .modal-content img, .modal-content video {
-      max-width: 100%;
-      max-height: 90vh;
-      display: block;
-      border-radius: var(--card-radius);
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 2.5rem;
-      cursor: pointer;
-      z-index: 10000;
-      background: rgba(0,0,0,0.3);
-      width: 50px; height: 50px;
-      border-radius: 50%;
+      max-width: 90vw;
+      max-height: 85vh;
+      transform: scale(0.9);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
       justify-content: center;
       align-items: center;
-      backdrop-filter: blur(5px);
-      transition: background 0.3s;
+    }
+    .modal.active .modal-content-wrapper {
+      transform: scale(1);
     }
 
-    .close-btn:hover {
-      background: rgba(255,255,255,0.2);
+    .modal-media {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: var(--radius-medium);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(255,255,255,0.05);
+      display: block;
+      object-fit: contain;
     }
 
-    /* כפתור פליי מותאם אישית למסך מלא */
-    .custom-play-btn {
+    /* כפתורי ניווט במודאל */
+    .nav-btn {
       position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--primary-gradient);
-      border: none;
-      color: white;
-      padding: 15px 40px;
-      border-radius: 30px;
-      font-size: 1.2rem;
-      font-family: 'Heebo', sans-serif;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 100;
-      box-shadow: 0 10px 30px rgba(238, 9, 121, 0.4);
-    }
-
-    .status-msg {
-      text-align: center;
-      grid-column: 1 / -1;
-      font-size: 1.5rem;
-      color: #666;
-      margin-top: 100px;
-    }
-    
-    .spinner {
-      width: 50px; height: 50px;
-      border: 5px solid rgba(238, 9, 121, 0.2);
-      border-top-color: #EE0979;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--bg-panel);
+      border: 1px solid var(--border-glass);
+      color: #fff;
+      width: 54px; height: 54px;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+      display: flex; justify-content: center; align-items: center;
+      z-index: 1010;
     }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .nav-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.1); }
+    .nav-prev { right: 30px; }
+    .nav-next { left: 30px; }
 
+    .close-btn {
+      position: absolute;
+      top: 30px; right: 40px;
+      background: rgba(255,255,255,0.1);
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 1010;
+      transition: 0.3s;
+    }
+    .close-btn:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
+
+    /* אלמנט גלילה למטה לטעינה עצלנית (Batching) */
+    #scroll-trigger { height: 50px; width: 100%; margin-top: 20px;}
+    
+    .status-text { text-align: center; color: var(--text-muted); padding: 40px; font-size: 1.2rem; }
   </style>
 </head>
-<body>
+<body class="reflective-mode">
 
-  <header id="header">
-    <h1>קעמפ ביה״ז אב פ״ה באופקים</h1>
-    <div class="filters">
-      <button class="filter-btn active" data-filter="all">הכל</button>
-      <button class="filter-btn" data-filter="image">תמונות מחזור</button>
-      <button class="filter-btn" data-filter="video">סרטונים ורגעים</button>
+  <!-- רקע זרקור -->
+  <div class="ambient-background">
+    <div class="spotlight spotlight-1"></div>
+    <div class="spotlight spotlight-2"></div>
+    <div class="spotlight spotlight-3"></div>
+  </div>
+
+  <header id="main-header">
+    <div class="header-content">
+      <!-- הלוגו מהפרויקט - מושך אוטומטית מקובץ בשם logo.jpg -->
+      <img src="logo.jpg" alt="לוגו קעמפ" class="header-logo" onerror="this.style.display='none'">
+      <div class="title-wrapper">
+        <h1>קעמפ ביה״ז אב פ״ה באופקים</h1>
+        <p class="subtitle">בנשיאות הגרא״ד האוסמן הי״ו</p>
+      </div>
+    </div>
+    
+    <div class="toolbar">
+      <!-- סינון מדיה -->
+      <div class="tool-group">
+        <button class="btn active filter-btn" data-filter="all">הכל</button>
+        <button class="btn filter-btn" data-filter="image">תמונות</button>
+        <button class="btn filter-btn" data-filter="video">וידאו</button>
+      </div>
+
+      <!-- גודל תצוגה -->
+      <div class="tool-group">
+        <button class="btn size-btn" data-size="small">קטן</button>
+        <button class="btn size-btn active" data-size="medium">רגיל</button>
+        <button class="btn size-btn" data-size="large">גדול</button>
+      </div>
+
+      <!-- פריסה -->
+      <div class="tool-group">
+        <button class="btn layout-btn active" data-layout="grid">פסיפס</button>
+        <button class="btn layout-btn" data-layout="masonry">חופשי</button>
+      </div>
+
+      <!-- פיצ'רים נוספים -->
+      <div class="tool-group">
+        <button class="btn active" id="btn-reflection">השתקפות ✨</button>
+        <button class="btn" id="btn-shuffle">ערבב 🔀</button>
+        <button class="btn btn-glow" id="btn-slideshow">מצגת חכמה ▶</button>
+      </div>
     </div>
   </header>
 
-  <div id="status" class="status-msg">
-    <div class="spinner"></div>
-    טוען זכרונות מכל רחבי המאגר...
+  <div class="gallery-wrapper">
+    <div id="status" class="status-text">סורק זכרונות בכל הפרויקט... מתכונן לטעינה מהירה...</div>
+    <div id="gallery" class="gallery-container" data-size="medium"></div>
+    <div id="scroll-trigger"></div>
   </div>
 
-  <div class="gallery-container" id="gallery"></div>
-
-  <!-- מסך מלא למדיה -->
+  <!-- מודאל מסך מלא -->
   <div class="modal" id="modal">
-    <div class="close-btn" id="close-modal">&times;</div>
-    <div class="modal-content" id="modal-body">
-      <!-- התוכן יוזרק לכאן -->
+    <div class="close-btn" id="btn-close-modal">✖</div>
+    <button class="nav-btn nav-prev" id="btn-prev">❯</button>
+    <button class="nav-btn nav-next" id="btn-next">❮</button>
+    
+    <div class="modal-content-wrapper" id="modal-wrapper">
+      <!-- מדיה תוזרק לפה -->
     </div>
   </div>
 
   <script>
-    // --- הגנות הרמטיות נגד העתקה ---
+    //    // הגנות תוכן הרמטיות
     document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        const key = e.key.toLowerCase();
-        if (key === 's' || key === 'u' || key === 'p' || key === 'c') e.preventDefault();
-      }
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && ['s', 'u', 'c', 'p'].includes(e.key.toLowerCase())) e.preventDefault();
       if (e.key === 'F12') e.preventDefault();
     });
 
-    // --- העלמת סרגל בגלילה ---
-    let lastScroll = 0;
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.scrollY;
-      if (currentScroll > 100 && currentScroll > lastScroll) {
-        header.classList.add('scrolled'); // גולל למטה - הסתר
-      } else {
-        header.classList.remove('scrolled'); // גולל למעלה - הצג
-      }
-      lastScroll = currentScroll;
-    });
-
-    // --- סריקה חכמה של כל הגיטהאב ---
-    const REPO_OWNER = "y3204044-art";
-    const REPO_NAME = "camp05485300-gmail.com";
-    const BRANCH = "main"; // ברירת מחדל
-    // API שסורק את *כל* התיקיות בעץ של הפרויקט במכה אחת
-    const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/${BRANCH}?recursive=1`;
+    //    // הגדרות GitHub לסריקה עמוקה של כל הפרויקט
+    const REPO = "y3204044-art/camp05485300-gmail.com";
+    const BRANCH = "main";
+    const API_URL = `https://api.github.com/repos/${REPO}/git/trees/${BRANCH}?recursive=1`;
     
+    let allMedia = [];
+    let currentFiltered = [];
+    let renderIndex = 0;
+    const BATCH_SIZE = 15; // טוענים במנות קטנות כדי לשמור על מהירות שיא
+
     const gallery = document.getElementById('gallery');
     const statusDiv = document.getElementById('status');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    
-    let allFiles = []; // ישמור את כל המדיה
 
-    async function fetchAllMedia() {
+    async function fetchMediaData() {
       try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("לא הצלחתי לסרוק את המאגר");
-        const data = await response.json();
+        const res = await fetch(API_URL);
+        if(!res.ok) throw new Error("שגיאה בסריקה");
+        const data = await res.json();
         
-        // סינון רק של קבצי מדיה מתוך כל העץ
+        // סינון רק קבצי מדיה מ*כל* התיקיות
         data.tree.forEach(item => {
           if (item.type === "blob") {
             const ext = item.path.split('.').pop().toLowerCase();
-            const isVideo = ['mp4', 'mov', 'webm', 'mkv'].includes(ext);
-            const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext);
+            const isVideo = ['mp4', 'webm', 'mov'].includes(ext);
+            const isImg = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext);
             
-            if (isVideo || isImage) {
-              // יצירת קישור ישיר (Raw) לקובץ
-              const rawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${item.path}`;
-              allFiles.push({ url: rawUrl, isVideo: isVideo });
+            if (isVideo || isImg) {
+              // שימוש ב-CDN מהיר מאוד להאצת טעינת תמונות
+              const fastUrl = isImg 
+                ? `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${item.path}`
+                : `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${item.path}`; // סרטונים נשארים בשרת המקור
+              
+              allMedia.push({ url: fastUrl, isVideo });
             }
           }
         });
 
-        if (allFiles.length === 0) {
-          statusDiv.innerHTML = "לא נמצאו תמונות או סרטונים באף תיקייה.";
+        if(allMedia.length === 0) {
+          statusDiv.innerText = "לא נמצאה מדיה בפרויקט.";
           return;
         }
 
-        // ערבוב אקראי לתצוגה יפה
-        allFiles.sort(() => Math.random() - 0.5);
         statusDiv.style.display = 'none';
+        currentFiltered = [...allMedia];
         
-        renderGallery('all');
+        // נערבב קצת בהתחלה שייראה מעניין
+        shuffleArray(currentFiltered);
+        renderBatch();
 
-      } catch (error) {
-        statusDiv.innerHTML = "שגיאה בטעינת המדיה מ-GitHub.";
-        console.error(error);
+      } catch (err) {
+        statusDiv.innerText = "שגיאת רשת. ודא שהמאגר פומבי (Public).";
       }
     }
 
-    function renderGallery(filterType) {
-      gallery.innerHTML = ''; // ניקוי
+    function renderBatch() {
+      const fragment = document.createDocumentFragment();
+      const end = Math.min(renderIndex + BATCH_SIZE, currentFiltered.length);
       
-      let delay = 0; // לאנימציית כניסה מדורגת
-
-      allFiles.forEach(file => {
-        if (filterType === 'image' && file.isVideo) return;
-        if (filterType === 'video' && !file.isVideo) return;
-
+      for (let i = renderIndex; i < end; i++) {
+        const item = currentFiltered[i];
+        // שומרים אינדקס גלובלי ביחס למערך המסונן הנוכחי, כדי שהמודאל ידע איפה אנחנו
+        const itemIndex = i; 
+        
         const card = document.createElement('div');
         card.className = 'media-card';
-        card.style.animationDelay = `${delay}s`;
-        delay += 0.05;
-
+        
+        // מגן לחיצות שמפעיל זום
         const overlay = document.createElement('div');
         overlay.className = 'protection-overlay';
-        // פתיחה במסך מלא בלחיצה
-        overlay.addEventListener('click', () => openModal(file));
+        overlay.onclick = () => openModal(itemIndex);
 
-        if (file.isVideo) {
-          card.innerHTML = `<div class="video-badge">▶ וידאו</div><video src="${file.url}" class="media-item" muted loop playsinline></video>`;
-          const video = card.querySelector('video');
+        if (item.isVideo) {
+          card.innerHTML = `<div class="video-indicator">▶ וידאו</div>`;
+          const vid = document.createElement('video');
+          vid.src = item.url;
+          vid.className = 'media-item';
+          vid.muted = true; vid.loop = true; vid.playsInline = true;
           
-          // ניגון מקדים כשהעכבר עובר
-          card.addEventListener('mouseenter', () => video.play().catch(()=>{}));
-          card.addEventListener('mouseleave', () => {
-             // השהיה זהירה
-             if(!video.paused) video.pause();
+          // ניהול הבטחות למניעת שגיאת AbortError
+          let playPromise;
+          card.addEventListener('mouseenter', () => { 
+             playPromise = vid.play(); 
           });
+          card.addEventListener('mouseleave', () => {
+            if (playPromise !== undefined) {
+              playPromise.then(() => { vid.pause(); }).catch(()=>{});
+            }
+          });
+          card.appendChild(vid);
         } else {
-          card.innerHTML = `<img src="${file.url}" class="media-item" loading="lazy">`;
+          const img = document.createElement('img');
+          img.dataset.src = item.url; // Lazy Load
+          img.className = 'media-item';
+          card.appendChild(img);
+          lazyImageObserver.observe(img);
         }
 
         card.appendChild(overlay);
-        gallery.appendChild(card);
-      });
+        fragment.appendChild(card);
+      }
+      
+      gallery.appendChild(fragment);
+      renderIndex = end;
     }
 
-    // --- לוגיקת מסך מלא (Modal) ---
-    const modal = document.getElementById('modal');
-    const modalBody = document.getElementById('modal-body');
-    const closeBtn = document.getElementById('close-modal');
-    let currentVideoInModal = null;
+    //    // Observer לטעינת תמונות רק כשהן נכנסות למסך
+    const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          observer.unobserve(img);
+        }
+      });
+    }, { rootMargin: "300px" });
 
-    function openModal(file) {
-      modalBody.innerHTML = ''; // ניקוי
-      
-      const internalOverlay = document.createElement('div');
-      internalOverlay.className = 'protection-overlay';
+    //    // Observer לטעינת Batch נוסף כשגוללים מטה
+    const scrollTrigger = document.getElementById('scroll-trigger');
+    const scrollObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && renderIndex < currentFiltered.length) {
+        renderBatch();
+      }
+    });
+    scrollObserver.observe(scrollTrigger);
 
-      if (file.isVideo) {
-        currentVideoInModal = document.createElement('video');
-        currentVideoInModal.src = file.url;
-        currentVideoInModal.playsinline = true;
-        currentVideoInModal.controlsList = "nodownload noplaybackrate"; // חוסם הורדה
+    
+    //    // --- ניהול סרגל כלים ---
 
-        const playBtn = document.createElement('button');
-        playBtn.className = 'custom-play-btn';
-        playBtn.innerText = 'הפעל וידאו ▶';
+    // סינון: הכל / תמונות / וידאו
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
         
-        let isPlaying = false;
-        playBtn.onclick = (e) => {
-          e.stopPropagation();
-          if (isPlaying) {
-            currentVideoInModal.pause();
-            playBtn.innerText = 'הפעל וידאו ▶';
-          } else {
-            currentVideoInModal.play();
-            playBtn.innerText = 'השהה ⏸';
-          }
-          isPlaying = !isPlaying;
-        };
+        if (filter === 'all') currentFiltered = [...allMedia];
+        else if (filter === 'image') currentFiltered = allMedia.filter(m => !m.isVideo);
+        else currentFiltered = allMedia.filter(m => m.isVideo);
+        
+        gallery.innerHTML = '';
+        renderIndex = 0;
+        renderBatch();
+      });
+    });
 
-        modalBody.appendChild(currentVideoInModal);
-        modalBody.appendChild(playBtn);
-        // השכבה מונעת לחיצה ימנית על הוידאו
-        modalBody.appendChild(internalOverlay);
+    // כפתורי גדלים (קטן/רגיל/גדול)
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        gallery.dataset.size = btn.dataset.size;
+      });
+    });
 
+    // כפתורי פריסה (Grid / Masonry)
+    document.querySelectorAll('.layout-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if(btn.dataset.layout === 'masonry') {
+           gallery.classList.add('masonry-mode');
+        } else {
+           gallery.classList.remove('masonry-mode');
+        }
+      });
+    });
+
+    // כפתור השתקפות (Reflections)
+    document.getElementById('btn-reflection').addEventListener('click', (e) => {
+      const btn = e.target;
+      btn.classList.toggle('active');
+      document.body.classList.toggle('reflective-mode');
+    });
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+    }
+
+    // ערבוב תמונות (Shuffle)
+    document.getElementById('btn-shuffle').addEventListener('click', () => {
+      shuffleArray(currentFiltered);
+      gallery.innerHTML = '';
+      renderIndex = 0;
+      renderBatch();
+    });
+
+    //    // העלמת כותרת בגלילה מטה, חזרה בגלילה מעלה
+    let lastScroll = 0;
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+      let current = window.scrollY;
+      if (current > 150 && current > lastScroll) {
+        header.classList.add('scrolled');
+      } else if (current < lastScroll - 10 || current < 50) {
+        header.classList.remove('scrolled'); // מופיע שוב כשגוללים טיפה למעלה
+      }
+      lastScroll = current;
+    });
+
+
+    //    // --- מודאל מסך מלא (Lightbox) ---
+    const modal = document.getElementById('modal');
+    const modalWrapper = document.getElementById('modal-wrapper');
+    let currentIndexModal = 0;
+    let slideShowTimer = null;
+
+    function openModal(index) {
+      currentIndexModal = index;
+      updateModalMedia();
+      modal.classList.add('active');
+    }
+
+    function updateModalMedia() {
+      modalWrapper.innerHTML = '';
+      const item = currentFiltered[currentIndexModal];
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'protection-overlay';
+      overlay.style.cursor = 'default'; // בתוך מודאל אין זום אין
+
+      if (item.isVideo) {
+        const vid = document.createElement('video');
+        vid.src = item.url;
+        vid.controls = true;
+        vid.controlsList = "nodownload noplaybackrate"; // מניעת הורדה
+        vid.className = 'modal-media';
+        vid.autoplay = true;
+        vid.onended = () => { if(slideShowTimer) goNext(); }; // אוטומטי במצגת
+        modalWrapper.appendChild(vid);
       } else {
         const img = document.createElement('img');
-        img.src = file.url;
-        modalBody.appendChild(img);
-        modalBody.appendChild(internalOverlay);
+        img.src = item.url;
+        img.className = 'modal-media';
+        modalWrapper.appendChild(img);
       }
-
-      modal.classList.add('active');
+      
+      modalWrapper.appendChild(overlay);
     }
 
     function closeModal() {
       modal.classList.remove('active');
-      if (currentVideoInModal) {
-        currentVideoInModal.pause();
-        currentVideoInModal = null;
-      }
-      setTimeout(() => modalBody.innerHTML = '', 400); // ניקוי אחרי האנימציה
+      stopSlideshow();
+      // ממתינים לאנימציית ההיעלמות לפני שמוחקים את התוכן
+      setTimeout(() => modalWrapper.innerHTML = '', 400);
     }
 
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal(); // סגירה בלחיצה על הרקע
+    function goNext() {
+      currentIndexModal = (currentIndexModal + 1) % currentFiltered.length;
+      updateModalMedia();
+    }
+    
+    function goPrev() {
+      currentIndexModal = (currentIndexModal - 1 + currentFiltered.length) % currentFiltered.length;
+      updateModalMedia();
+    }
+
+    // חיבור כפתורי המודאל
+    document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+    document.getElementById('btn-next').addEventListener('click', goNext);
+    document.getElementById('btn-prev').addEventListener('click', goPrev);
+    
+    // ניווט במקלדת
+    document.addEventListener('keydown', (e) => {
+      if(!modal.classList.contains('active')) return;
+      if(e.key === 'Escape') closeModal();
+      if(e.key === 'ArrowRight' || e.key === 'ArrowUp') goNext();
+      if(e.key === 'ArrowLeft' || e.key === 'ArrowDown') goPrev();
     });
 
-    // --- הפעלת כפתורי הסינון ---
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderGallery(btn.dataset.filter);
-      });
-    });
+    //    // כפתור מצגת אוטומטית במסך מלא
+    function startSlideshow() {
+      if(currentFiltered.length === 0) return;
+      openModal(0);
+      slideShowTimer = setInterval(() => {
+        const curr = currentFiltered[currentIndexModal];
+        // מדלגים לתמונה הבאה. לסרטונים יש onended שמעביר אוטומטית.
+        if(!curr.isVideo) goNext(); 
+      }, 4000);
+    }
+    
+    function stopSlideshow() {
+      clearInterval(slideShowTimer);
+      slideShowTimer = null;
+    }
+    
+    document.getElementById('btn-slideshow').addEventListener('click', startSlideshow);
 
     // התנעה
-    fetchAllMedia();
+    fetchMediaData();
   </script>
 </body>
 </html>
