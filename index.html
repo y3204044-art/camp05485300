@@ -3,360 +3,376 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>גלריית מדיה</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">
-  
+  <title>קעמפ ביה״ז אב פ״ה באופקים</title>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700&family=Heebo:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* עיצוב נוסטלגי וחם */
     :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --accent-color: #38bdf8;
-      --text-color: #f8fafc;
-      --text-dim: #94a3b8;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      --bg-color: #1a1512;
+      --card-bg: #2d241f;
+      --text-main: #f4e8d3;
+      --text-muted: #c9bca7;
+      --accent-glow: rgba(220, 160, 100, 0.4);
     }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Assistant', system-ui, sans-serif;
+      margin: 0;
+      background: radial-gradient(circle at center, #2a201b 0%, #110d0a 100%);
+      color: var(--text-main);
+      font-family: 'Heebo', sans-serif;
       min-height: 100vh;
-      padding-bottom: 50px;
+      overflow-x: hidden;
+      user-select: none; /* חסימת סימון טקסט */
     }
 
+    /* הגנה נגד גרירה ושמירה */
+    img, video {
+      pointer-events: none; /* הופך את התמונות לבלתי לחיצות לעכבר */
+      -webkit-user-drag: none;
+    }
+
+    /* כותרת חכמה שמתפוגגת */
     header {
-      padding: 2.5rem 1rem 1.5rem;
-      text-align: center;
-      background: linear-gradient(to bottom, rgba(15,23,42,0.9), rgba(15,23,42,0));
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(12px);
-    }
-
-    header h1 {
-      font-size: 2.2rem;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      color: var(--text-color);
-    }
-
-    header p {
-      color: var(--text-dim);
-      font-size: 1rem;
-      margin-top: 6px;
-    }
-
-    /* רשת גמישה בסגנון Pinterest */
-    .gallery-container {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 0 20px;
-      column-count: 4;
-      column-gap: 20px;
-    }
-
-    @media (max-width: 1200px) { .gallery-container { column-count: 3; } }
-    @media (max-width: 800px)  { .gallery-container { column-count: 2; } }
-    @media (max-width: 500px)  { .gallery-container { column-count: 1; } }
-
-    .media-card {
-      break-inside: avoid;
-      margin-bottom: 20px;
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .media-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 30px -10px rgba(56, 189, 248, 0.2);
-    }
-
-    .media-card img, 
-    .media-card video {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 16px;
-      object-fit: cover;
-    }
-
-    /* אינדיקטור לנגן וידאו */
-    .video-wrapper {
-      position: relative;
-    }
-
-    .video-tag {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(6px);
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      z-index: 2;
-    }
-
-    /* חלון מסך מלא (Modal) */
-    .modal {
-      display: none;
       position: fixed;
       top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(15px);
+      width: 100%;
+      padding: 1.5rem 0;
+      text-align: center;
+      background: linear-gradient(to bottom, rgba(26, 21, 18, 0.95), rgba(26, 21, 18, 0));
       z-index: 100;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    header.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px);
+    }
+
+    h1 {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 2.5rem;
+      margin: 0;
+      text-shadow: 0 4px 15px var(--accent-glow);
+      letter-spacing: 1px;
+    }
+
+    /* כפתור מצגת זכרונות */
+    .btn-slideshow {
+      margin-top: 10px;
+      padding: 8px 20px;
+      background: rgba(244, 232, 211, 0.1);
+      border: 1px solid var(--text-muted);
+      color: var(--text-main);
+      border-radius: 30px;
+      font-family: 'Heebo', sans-serif;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .btn-slideshow:hover {
+      background: var(--text-main);
+      color: var(--bg-color);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    /* גלריה במראה וינטג' */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      padding: 120px 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .media-container {
+      position: relative;
+      background: #faf4e8; /* מסגרת דמוית פולארויד */
+      padding: 10px 10px 40px 10px;
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease;
+    }
+
+    /* טעינה חלקה - האובייקטים נחשפים בריחוף */
+    .media-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .media-container:hover {
+      box-shadow: 0 15px 40px rgba(220, 160, 100, 0.3);
+      transform: translateY(-5px) scale(1.02);
+      z-index: 10;
+    }
+
+    .media-item {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 2px;
+      background: #111;
+      filter: sepia(0.2) contrast(1.1); /* פילטר נוסטלגי עדין */
+      transition: filter 0.3s ease;
+    }
+
+    .media-container:hover .media-item {
+      filter: sepia(0) contrast(1); /* חזרה לצבע מקורי במעבר עכבר */
+    }
+
+    /* שכבת הגנה נגד גניבות (Overlay) */
+    .protection-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 5;
+    }
+
+    /* מצב מצגת מסך מלא */
+    #slideshow-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #050403;
+      z-index: 999;
+      display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
     }
 
-    .modal.active {
-      display: flex;
+    #slideshow-modal.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    .modal-content {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 12px;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    #slideshow-media {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out; /* מעבר איטי ומרגש */
     }
 
-    .close-modal {
+    #slideshow-media.fade-in {
+      opacity: 1;
+    }
+
+    .close-slideshow {
       position: absolute;
-      top: 25px;
-      left: 25px;
+      top: 20px;
+      right: 30px;
       color: #fff;
       font-size: 2rem;
       cursor: pointer;
-      background: rgba(255,255,255,0.1);
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
+      z-index: 1000;
+      opacity: 0.5;
+    }
+    
+    .close-slideshow:hover {
+      opacity: 1;
     }
 
-    .close-modal:hover {
-      background: rgba(255,255,255,0.25);
-    }
-
-    /* הודעת טעינה */
-    .status-msg {
+    /* מסתיר אלמנטים כשאין מדיה */
+    .loading-text {
       text-align: center;
-      padding: 60px 20px;
-      color: var(--text-dim);
+      grid-column: 1 / -1;
       font-size: 1.2rem;
-    }
-
-    .spinner {
-      border: 3px solid rgba(255,255,255,0.1);
-      border-top: 3px solid var(--accent-color);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>מאגר התמונות והסרטונים</h1>
-    <p id="count-label">טוען מדיה...</p>
+  <header id="main-header">
+    <h1>קעמפ ביה״ז אב פ״ה באופקים</h1>
+    <button class="btn-slideshow" onclick="startSlideshow()">🎞️ מצגת זכרונות (Remembering This)</button>
   </header>
 
-  <div id="status" class="status-msg">
-    <div class="spinner"></div>
-    <p>סורק את התקייה ומביא את הקבצים...</p>
+  <div id="gallery" class="gallery">
+    <div class="loading-text">טוען זכרונות...</div>
   </div>
 
-  <div class="gallery-container" id="gallery"></div>
-
-  <!-- Modal למסך מלא -->
-  <div class="modal" id="modal">
-    <span class="close-modal" id="close-modal">&times;</span>
-    <div id="modal-body"></div>
+  <!-- מצגת מסך מלא -->
+  <div id="slideshow-modal">
+    <div class="close-slideshow" onclick="stopSlideshow()">✖</div>
+    <div class="protection-overlay" style="z-index: 10;"></div>
+    <!-- המדיה תוזרק לכאן דינמית -->
   </div>
 
   <script>
-    // הגדרת הפרטים של המאגר ב-GitHub
-    const REPO_OWNER = "y3204044-art";
-    const REPO_NAME = "camp05485300-gmail.com";
-    const FOLDER_PATH = "media";
+    // --- הגנות תוכן הרמטיות ---
+    document.addEventListener('contextmenu', event => event.preventDefault()); // חסימת קליק ימני
+    document.addEventListener('keydown', (e) => {
+      // חסימת קיצורי מקלדת כמו שמירה ופתיחת קוד מקור
+      if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'p')) e.preventDefault();
+      if (e.metaKey && (e.key === 's' || e.key === 'u' || e.key === 'p')) e.preventDefault();
+      if (e.key === 'F12') e.preventDefault();
+    });
 
-    const gallery = document.getElementById('gallery');
-    const statusDiv = document.getElementById('status');
-    const countLabel = document.getElementById('count-label');
-    const modal = document.getElementById('modal');
-    const modalBody = document.getElementById('modal-body');
-    const closeModal = document.getElementById('close-modal');
+    // --- העלמת כותרת בגלילה ---
+    let lastScroll = 0;
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > 100) {
+        header.classList.add('hidden');
+      } else {
+        header.classList.remove('hidden');
+      }
+      lastScroll = currentScroll;
+    });
 
-    // פנייה ל-API של GitHub לקבלת תוכן התיקייה באופן אוטומטי
-    async function loadMediaFromGitHub() {
+    // --- טעינת המדיה מגיטהאב (אוטומטי) ---
+    const repoOwner = "y3204044-art";
+    const repoName = "camp05485300-gmail.com";
+    const mediaFolder = "media";
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${mediaFolder}`;
+
+    let allMediaData = []; // נשמור את הקבצים עבור המצגת
+
+    async function loadMedia() {
+      const gallery = document.getElementById('gallery');
       try {
-        let files = [];
-        const isMediaFile = (filename) => {
-          const ext = filename.split('.').pop().toLowerCase();
-          return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mov', 'webm', 'avi', 'mkv'].includes(ext);
-        };
-
-        // 1. ניסיון ראשון: בדיקת תיקיית media
-        try {
-          const mediaFolderRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER_PATH}`);
-          if (mediaFolderRes.ok) {
-            const folderData = await mediaFolderRes.json();
-            if (Array.isArray(folderData)) {
-              files = files.concat(folderData.filter(f => f.type === 'file' && isMediaFile(f.name)));
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("לא נמצאה תיקיית media");
+        const files = await response.json();
+        
+        gallery.innerHTML = ""; // ניקוי טקסט הטעינה
+        
+        // יצירת מנגנון צפייה שחושף תמונות בגלילה
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
             }
-          }
-        } catch (e) {
-          console.log("תיקיית media לא נמצאה, מנסה לסרוק את תיקיית השורש...");
-        }
+          });
+        }, { threshold: 0.1 });
 
-        // 2. ניסיון שני (אם תיקיית media לא קיימת או ריקה): סריקת תיקיית השורש (Root) ותתי-תיקיות
-        if (files.length === 0) {
-          const rootRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`);
-          if (rootRes.ok) {
-            const rootData = await rootRes.json();
-            if (Array.isArray(rootData)) {
-              // קבצים ישירות בשורש המאגר
-              files = files.concat(rootData.filter(f => f.type === 'file' && isMediaFile(f.name)));
-
-              // סריקת תיקיות נוספות במידה וקיימות
-              const subFolders = rootData.filter(item => item.type === 'dir');
-              for (const folder of subFolders) {
-                try {
-                  const subRes = await fetch(folder.url);
-                  if (subRes.ok) {
-                    const subData = await subRes.json();
-                    if (Array.isArray(subData)) {
-                      files = files.concat(subData.filter(f => f.type === 'file' && isMediaFile(f.name)));
-                    }
-                  }
-                } catch (e) {
-                  console.warn('Could not scan folder:', folder.name, e);
-                }
-              }
-            }
-          }
-        }
-
-        if (files.length === 0) {
-          statusDiv.innerHTML = `
-            <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); padding: 24px; border-radius: 16px; max-width: 520px; margin: 0 auto; text-align: center;">
-              <p style="color: #38bdf8; font-weight: 600; font-size: 1.15rem; margin-bottom: 8px;">מחכה להעלאת התמונות והסרטונים</p>
-              <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">פשוט גרור והעלה את קובצי המדיה שלך ל-GitHub (לתיקייה הראשית או לתיקייה בשם <b>media</b>).</p>
-              <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 12px;">הגלריה תתעדכן ותציג אותם אוטומטית כשתרענן את הדף!</p>
-            </div>
-          `;
-          countLabel.innerText = "0 פריטים";
-          return;
-        }
-
-        // ערבוב אקראי לתצוגה מגוונת ומעניינת
-        files.sort(() => Math.random() - 0.5);
-
-        statusDiv.style.display = 'none';
-        countLabel.innerText = `${files.length} פריטים במאגר`;
-
-        gallery.innerHTML = '';
         files.forEach(file => {
-          const ext = file.name.split('.').pop().toLowerCase();
-          const isVideo = ['mp4', 'mov', 'webm', 'avi', 'mkv'].includes(ext);
-          
-          const card = document.createElement('div');
-          card.className = 'media-card';
+          if (file.type === "file") {
+            const isVideo = file.name.match(/\.(mp4|webm|mov)$/i);
+            const isImage = file.name.match(/\.(jpeg|jpg|gif|png|webp)$/i);
+            const downloadUrl = file.download_url;
 
-          if (isVideo) {
-            card.innerHTML = `
-              <div class="video-wrapper">
-                <span class="video-tag">▶ וידאו</span>
-                <video src="${file.download_url}" muted loop playsinline preload="metadata"></video>
-              </div>
-            `;
-            
-            // נגן בנגיעה מעבר עכבר
-            const video = card.querySelector('video');
-            card.addEventListener('mouseenter', () => video.play().catch(() => {}));
-            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
-            
-            card.addEventListener('click', () => openModal('video', file.download_url));
-          } else {
-            card.innerHTML = `<img src="${file.download_url}" alt="${file.name}" loading="lazy">`;
-            card.addEventListener('click', () => openModal('img', file.download_url));
+            if (isVideo || isImage) {
+              allMediaData.push({ url: downloadUrl, isVideo }); // שמירה למצגת
+
+              const container = document.createElement('div');
+              container.className = 'media-container';
+              
+              // שכבת הגנה פנימית נגד לחיצות
+              const overlay = document.createElement('div');
+              overlay.className = 'protection-overlay';
+              
+              if (isVideo) {
+                const video = document.createElement('video');
+                video.src = downloadUrl;
+                video.className = 'media-item';
+                video.muted = true;
+                video.loop = true;
+                // סרטון יתנגן אוטומטית כשהעכבר יעבור מעליו (נמצא מתחת ל-overlay)
+                container.addEventListener('mouseenter', () => video.play().catch(e=>{}));
+                container.addEventListener('mouseleave', () => video.pause());
+                container.appendChild(video);
+              } else {
+                const img = document.createElement('img');
+                img.src = downloadUrl;
+                img.className = 'media-item';
+                img.loading = 'lazy'; // טעינה עצלנית למהירות
+                container.appendChild(img);
+              }
+              
+              container.appendChild(overlay);
+              gallery.appendChild(container);
+              observer.observe(container); // חיבור לאנימציית החשיפה
+            }
           }
-
-          gallery.appendChild(card);
         });
 
-      } catch (err) {
-        console.error(err);
-        statusDiv.innerHTML = `<p style="color: #ef4444;">שגיאה בטעינת הקבצים: ${err.message}</p>`;
+        if (allMediaData.length === 0) {
+          gallery.innerHTML = "<div class='loading-text'>לא נמצאו תמונות או סרטונים בתיקיית media.</div>";
+        }
+
+      } catch (error) {
+        gallery.innerHTML = `<div class='loading-text'>שגיאה בטעינת המדיה. ודא שקיימת תיקייה בשם media עם קבצים.</div>`;
       }
     }
 
-    // פתיחת מדיה במסך מלא
-    function openModal(type, url) {
-      modalBody.innerHTML = '';
-      if (type === 'video') {
-        const video = document.createElement('video');
-        video.src = url;
-        video.controls = true;
-        video.autoplay = true;
-        video.className = 'modal-content';
-        modalBody.appendChild(video);
-      } else {
-        const img = document.createElement('img');
-        img.src = url;
-        img.className = 'modal-content';
-        modalBody.appendChild(img);
-      }
+    // --- לוגיקת המצגת האוטומטית (Remembering This) ---
+    let slideshowInterval;
+    let currentSlide = 0;
+    const modal = document.getElementById('slideshow-modal');
+
+    function startSlideshow() {
+      if (allMediaData.length === 0) return;
       modal.classList.add('active');
+      currentSlide = 0;
+      showNextSlide();
     }
 
-    closeModal.addEventListener('click', () => {
-      modal.classList.remove('active');
-      modalBody.innerHTML = '';
-    });
+    function showNextSlide() {
+      if (!modal.classList.contains('active')) return;
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-        modalBody.innerHTML = '';
+      // ניקוי המדיה הקודמת
+      const existingMedia = document.getElementById('slideshow-media');
+      if (existingMedia) {
+        existingMedia.classList.remove('fade-in');
+        setTimeout(() => existingMedia.remove(), 1000); // מחכה לסיום ההתפוגגות
       }
-    });
 
-    // הפעלת הטעינה בזמן עליית הדף
-    loadMediaFromGitHub();
+      setTimeout(() => {
+        const item = allMediaData[currentSlide];
+        let mediaElement;
+
+        if (item.isVideo) {
+          mediaElement = document.createElement('video');
+          mediaElement.src = item.url;
+          mediaElement.autoplay = true;
+          mediaElement.muted = false; // סאונד פועל במצגת
+          mediaElement.onended = () => {
+             // כשמסתיים הסרטון, עוברים לבא
+             currentSlide = (currentSlide + 1) % allMediaData.length;
+             showNextSlide();
+          };
+        } else {
+          mediaElement = document.createElement('img');
+          mediaElement.src = item.url;
+          // בתמונה, מחכים 5 שניות ואז מחליפים
+          slideshowInterval = setTimeout(() => {
+            currentSlide = (currentSlide + 1) % allMediaData.length;
+            showNextSlide();
+          }, 5000); 
+        }
+
+        mediaElement.id = 'slideshow-media';
+        modal.appendChild(mediaElement);
+        
+        // טריגר קטן כדי שהאנימציה של החשיפה תעבוד
+        setTimeout(() => mediaElement.classList.add('fade-in'), 50);
+
+      }, 1000);
+    }
+
+    function stopSlideshow() {
+      modal.classList.remove('active');
+      clearTimeout(slideshowInterval);
+      const existingMedia = document.getElementById('slideshow-media');
+      if (existingMedia) {
+        if(existingMedia.tagName === 'VIDEO') existingMedia.pause();
+        existingMedia.remove();
+      }
+    }
+
+    // התנעת הטעינה כשהעמוד נפתח
+    window.onload = loadMedia;
   </script>
 </body>
 </html>
