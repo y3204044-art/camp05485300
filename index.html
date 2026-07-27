@@ -3,45 +3,360 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>הגלריה שלי</title>
+  <title>גלריית מדיה</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">
+  
   <style>
-    body {
-      margin: 0;
-      background-color: #121212;
-      color: #fff;
-      font-family: system-ui, sans-serif;
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --accent-color: #38bdf8;
+      --text-color: #f8fafc;
+      --text-dim: #94a3b8;
     }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Assistant', system-ui, sans-serif;
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
     header {
-      padding: 1rem;
+      padding: 2.5rem 1rem 1.5rem;
       text-align: center;
-      background-color: #1e1e1e;
+      background: linear-gradient(to bottom, rgba(15,23,42,0.9), rgba(15,23,42,0));
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
+      backdrop-filter: blur(12px);
     }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 15px;
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--text-color);
+    }
+
+    header p {
+      color: var(--text-dim);
+      font-size: 1rem;
+      margin-top: 6px;
+    }
+
+    /* רשת גמישה בסגנון Pinterest */
+    .gallery-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 20px;
+      column-count: 4;
+      column-gap: 20px;
+    }
+
+    @media (max-width: 1200px) { .gallery-container { column-count: 3; } }
+    @media (max-width: 800px)  { .gallery-container { column-count: 2; } }
+    @media (max-width: 500px)  { .gallery-container { column-count: 1; } }
+
+    .media-card {
+      break-inside: avoid;
+      margin-bottom: 20px;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .media-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -10px rgba(56, 189, 248, 0.2);
+    }
+
+    .media-card img, 
+    .media-card video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    /* אינדיקטור לנגן וידאו */
+    .video-wrapper {
+      position: relative;
+    }
+
+    .video-tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 2;
+    }
+
+    /* חלון מסך מלא (Modal) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(15px);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
     }
-    .media-item {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 8px;
-      background: #2a2a2a;
+
+    .modal.active {
+      display: flex;
     }
-    video.media-item {
-      background: #000;
+
+    .modal-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      background: rgba(255,255,255,0.1);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .close-modal:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* הודעת טעינה */
+    .status-msg {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+      font-size: 1.2rem;
+    }
+
+    .spinner {
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top: 3px solid var(--accent-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>גלריית מדיה</h1>
+    <h1>מאגר התמונות והסרטונים</h1>
+    <p id="count-label">טוען מדיה...</p>
   </header>
-  <div class="gallery" id="gallery"></div>
-  <script src="script.js"></script>
+
+  <div id="status" class="status-msg">
+    <div class="spinner"></div>
+    <p>סורק את התקייה ומביא את הקבצים...</p>
+  </div>
+
+  <div class="gallery-container" id="gallery"></div>
+
+  <!-- Modal למסך מלא -->
+  <div class="modal" id="modal">
+    <span class="close-modal" id="close-modal">&times;</span>
+    <div id="modal-body"></div>
+  </div>
+
+  <script>
+    // הגדרת הפרטים של המאגר ב-GitHub
+    const REPO_OWNER = "y3204044-art";
+    const REPO_NAME = "camp05485300-gmail.com";
+    const FOLDER_PATH = "media";
+
+    const gallery = document.getElementById('gallery');
+    const statusDiv = document.getElementById('status');
+    const countLabel = document.getElementById('count-label');
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    const closeModal = document.getElementById('close-modal');
+
+    // פנייה ל-API של GitHub לקבלת תוכן התיקייה באופן אוטומטי
+    async function loadMediaFromGitHub() {
+      try {
+        let files = [];
+        const isMediaFile = (filename) => {
+          const ext = filename.split('.').pop().toLowerCase();
+          return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mov', 'webm', 'avi', 'mkv'].includes(ext);
+        };
+
+        // 1. ניסיון ראשון: בדיקת תיקיית media
+        try {
+          const mediaFolderRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER_PATH}`);
+          if (mediaFolderRes.ok) {
+            const folderData = await mediaFolderRes.json();
+            if (Array.isArray(folderData)) {
+              files = files.concat(folderData.filter(f => f.type === 'file' && isMediaFile(f.name)));
+            }
+          }
+        } catch (e) {
+          console.log("תיקיית media לא נמצאה, מנסה לסרוק את תיקיית השורש...");
+        }
+
+        // 2. ניסיון שני (אם תיקיית media לא קיימת או ריקה): סריקת תיקיית השורש (Root) ותתי-תיקיות
+        if (files.length === 0) {
+          const rootRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`);
+          if (rootRes.ok) {
+            const rootData = await rootRes.json();
+            if (Array.isArray(rootData)) {
+              // קבצים ישירות בשורש המאגר
+              files = files.concat(rootData.filter(f => f.type === 'file' && isMediaFile(f.name)));
+
+              // סריקת תיקיות נוספות במידה וקיימות
+              const subFolders = rootData.filter(item => item.type === 'dir');
+              for (const folder of subFolders) {
+                try {
+                  const subRes = await fetch(folder.url);
+                  if (subRes.ok) {
+                    const subData = await subRes.json();
+                    if (Array.isArray(subData)) {
+                      files = files.concat(subData.filter(f => f.type === 'file' && isMediaFile(f.name)));
+                    }
+                  }
+                } catch (e) {
+                  console.warn('Could not scan folder:', folder.name, e);
+                }
+              }
+            }
+          }
+        }
+
+        if (files.length === 0) {
+          statusDiv.innerHTML = `
+            <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); padding: 24px; border-radius: 16px; max-width: 520px; margin: 0 auto; text-align: center;">
+              <p style="color: #38bdf8; font-weight: 600; font-size: 1.15rem; margin-bottom: 8px;">מחכה להעלאת התמונות והסרטונים</p>
+              <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">פשוט גרור והעלה את קובצי המדיה שלך ל-GitHub (לתיקייה הראשית או לתיקייה בשם <b>media</b>).</p>
+              <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 12px;">הגלריה תתעדכן ותציג אותם אוטומטית כשתרענן את הדף!</p>
+            </div>
+          `;
+          countLabel.innerText = "0 פריטים";
+          return;
+        }
+
+        // ערבוב אקראי לתצוגה מגוונת ומעניינת
+        files.sort(() => Math.random() - 0.5);
+
+        statusDiv.style.display = 'none';
+        countLabel.innerText = `${files.length} פריטים במאגר`;
+
+        gallery.innerHTML = '';
+        files.forEach(file => {
+          const ext = file.name.split('.').pop().toLowerCase();
+          const isVideo = ['mp4', 'mov', 'webm', 'avi', 'mkv'].includes(ext);
+          
+          const card = document.createElement('div');
+          card.className = 'media-card';
+
+          if (isVideo) {
+            card.innerHTML = `
+              <div class="video-wrapper">
+                <span class="video-tag">▶ וידאו</span>
+                <video src="${file.download_url}" muted loop playsinline preload="metadata"></video>
+              </div>
+            `;
+            
+            // נגן בנגיעה מעבר עכבר
+            const video = card.querySelector('video');
+            card.addEventListener('mouseenter', () => video.play().catch(() => {}));
+            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+            
+            card.addEventListener('click', () => openModal('video', file.download_url));
+          } else {
+            card.innerHTML = `<img src="${file.download_url}" alt="${file.name}" loading="lazy">`;
+            card.addEventListener('click', () => openModal('img', file.download_url));
+          }
+
+          gallery.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error(err);
+        statusDiv.innerHTML = `<p style="color: #ef4444;">שגיאה בטעינת הקבצים: ${err.message}</p>`;
+      }
+    }
+
+    // פתיחת מדיה במסך מלא
+    function openModal(type, url) {
+      modalBody.innerHTML = '';
+      if (type === 'video') {
+        const video = document.createElement('video');
+        video.src = url;
+        video.controls = true;
+        video.autoplay = true;
+        video.className = 'modal-content';
+        modalBody.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'modal-content';
+        modalBody.appendChild(img);
+      }
+      modal.classList.add('active');
+    }
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      modalBody.innerHTML = '';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        modalBody.innerHTML = '';
+      }
+    });
+
+    // הפעלת הטעינה בזמן עליית הדף
+    loadMediaFromGitHub();
+  </script>
 </body>
 </html>
