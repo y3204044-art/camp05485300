@@ -77,6 +77,26 @@
       animation-delay: -10s;
     }
 
+    /* --- הילה זוהרת שעוקבת אחרי העכבר --- */
+    #cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 255, 200, 0.15) 0%, transparent 50%);
+      border-radius: 50%;
+      pointer-events: none; /* כדי שלא יפריע ללחיצות */
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      mix-blend-mode: screen;
+      transition: width 0.2s, height 0.2s, background 0.2s; /* תגובה ללחיצה */
+    }
+    
+    body:active #cursor-glow {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(255, 0, 150, 0.25) 0%, transparent 50%);
+    }
+
     @keyframes float {
       0% { transform: translate(0, 0) scale(1); }
       50% { transform: translate(10vw, 10vh) scale(1.1); }
@@ -142,9 +162,16 @@
       font-size: 1.8rem;
       font-weight: 700;
       letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #fff, #aab);
+      /* הוספת צבעוניות דינמית לכותרת */
+      background: linear-gradient(135deg, #00ffcc, #ff00cc, #00d4ff);
+      background-size: 200% auto;
+      animation: shine 5s linear infinite;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes shine {
+      to { background-position: 200% center; }
     }
 
     .subtitle {
@@ -181,13 +208,17 @@
       font-size: 0.9rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.1s ease-out; /* שונה ל-0.1 לתגובה סופר מהירה */
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .btn:hover { 
+      color: #fff; 
+      background: rgba(255,255,255,0.1); 
+      transform: scale(1.05); /* אפקט קפיצה קטן בעכבר */
+    }
     .btn.active {
       background: rgba(255,255,255,0.15);
       color: #fff;
@@ -413,6 +444,9 @@
 </head>
 <body class="reflective-mode">
 
+  <!-- סמן עכבר זוהר עוקב -->
+  <div id="cursor-glow"></div>
+
   <!-- רקע זרקור -->
   <div class="ambient-background">
     <div class="spotlight spotlight-1"></div>
@@ -517,7 +551,12 @@
                 ? `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${item.path}`
                 : `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${item.path}`; // סרטונים נשארים בשרת המקור
               
-              allMedia.push({ url: fastUrl, isVideo });
+              // יצירת תמונה מוקטנת (Thumbnail) אוטומטית בעזרת שירות כיווץ חינמי להאצה מטורפת
+              const thumbnailUrl = isImg
+                ? `https://images.weserv.nl/?url=${encodeURIComponent('cdn.jsdelivr.net/gh/' + REPO + '@' + BRANCH + '/' + item.path)}&w=300&q=60`
+                : fastUrl;
+              
+              allMedia.push({ url: fastUrl, thumbnailUrl: thumbnailUrl, isVideo });
             }
           }
         });
@@ -576,7 +615,7 @@
           card.appendChild(vid);
         } else {
           const img = document.createElement('img');
-          img.dataset.src = item.url; // Lazy Load
+          img.dataset.src = item.thumbnailUrl; // Lazy Load משתמש בתמונה המכווצת!
           img.className = 'media-item';
           card.appendChild(img);
           lazyImageObserver.observe(img);
@@ -774,6 +813,13 @@
     }
     
     document.getElementById('btn-slideshow').addEventListener('click', startSlideshow);
+
+    // מעקב של ההילה הזוהרת אחרי העכבר
+    const cursor = document.getElementById('cursor-glow');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
 
     // התנעה
     fetchMediaData();
