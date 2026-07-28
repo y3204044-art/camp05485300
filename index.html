@@ -3,18 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>קעמפ ביה״ז אב פ״ה באופקים</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg-dark: #0a1128;
-      --bg-panel: rgba(10, 19, 43, 0.8);
+      --bg-dark: #070d1e;
+      --bg-panel: rgba(12, 22, 50, 0.85);
       --radius-large: 20px;
       --radius-medium: 12px;
-      --google-blue: #4285F4;
-      --google-red: #EA4335;
-      --google-yellow: #FBBC05;
-      --google-green: #34A853;
+      --google-blue: #4285f4;
+      --google-red: #ea4335;
+      --google-yellow: #fbbc05;
+      --google-green: #34a853;
+      --neon-pink: #ff007f;
+      --neon-cyan: #00f0ff;
     }
 
     * { 
@@ -39,44 +43,42 @@
       z-index: -1;
       overflow: hidden;
       pointer-events: none;
-      background: radial-gradient(circle at 50% 50%, #0c1a3b 0%, #050a14 100%);
+      background: radial-gradient(circle at 50% 30%, #0c1c42 0%, #040814 100%);
     }
 
-    .spotlight {
+    .light-beam {
       position: absolute;
-      top: -10vh;
-      width: 50vw;
-      height: 120vh;
-      clip-path: polygon(45% 0, 55% 0, 100% 100%, 0% 100%);
-      filter: blur(25px);
-      transform-origin: 50% 0; /* ציר הסיבוב בחלק העליון */
-      mix-blend-mode: screen;
-      opacity: 0.85;
-      animation: sweep 12s infinite alternate ease-in-out;
+      top: -200px;
+      width: 350px;
+      height: 1200px;
+      background: linear-gradient(180deg, rgba(0, 240, 255, 0.25) 0%, rgba(255, 0, 127, 0.15) 50%, transparent 100%);
+      filter: blur(50px);
+      transform-origin: top center;
+      animation: beamSweep 16s infinite alternate ease-in-out;
     }
 
-    .spotlight:nth-child(1) { left: -20%; background: linear-gradient(180deg, rgba(0, 255, 170, 0.8) 0%, transparent 100%); animation-duration: 13s; }
-    .spotlight:nth-child(2) { left: 10%; background: linear-gradient(180deg, rgba(0, 114, 255, 0.8) 0%, transparent 100%); animation-delay: -3s; animation-duration: 15s; }
-    .spotlight:nth-child(3) { left: 40%; background: linear-gradient(180deg, rgba(255, 0, 170, 0.8) 0%, transparent 100%); animation-delay: -7s; animation-duration: 17s; }
-    .spotlight:nth-child(4) { left: 70%; background: linear-gradient(180deg, rgba(253, 185, 19, 0.8) 0%, transparent 100%); animation-delay: -11s; animation-duration: 14s; }
+    .light-beam:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .light-beam:nth-child(2) { left: 45%; background: linear-gradient(180deg, rgba(251, 188, 5, 0.25) 0%, rgba(52, 168, 83, 0.15) 50%, transparent 100%); animation-delay: -5s; }
+    .light-beam:nth-child(3) { left: 75%; animation-delay: -10s; }
 
-    @keyframes sweep {
-      0% { transform: rotate(-25deg) scaleY(1); }
-      100% { transform: rotate(25deg) scaleY(1.15); }
+    @keyframes beamSweep {
+      0% { transform: rotate(-25deg) scaleX(1); opacity: 0.4; }
+      50% { transform: rotate(0deg) scaleX(1.3); opacity: 0.8; }
+      100% { transform: rotate(25deg) scaleX(1); opacity: 0.4; }
     }
 
     header {
       position: sticky;
       top: 0;
       width: 100%;
-      padding: 14px 0 10px;
-      background: rgba(10, 17, 40, 0.92);
+      padding: 12px 15px 10px;
+      background: rgba(7, 13, 30, 0.94);
       backdrop-filter: blur(20px);
       border-bottom: 2px solid var(--google-yellow);
       z-index: 100;
       text-align: center;
       transition: transform 0.4s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.8);
     }
     header.hidden { transform: translateY(-100%); }
 
@@ -85,149 +87,277 @@
       justify-content: center;
       align-items: center;
       gap: 20px;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
     .header-logo {
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      animation: pulseGlow 2.5s infinite alternate ease-in-out;
-      z-index: 2;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 35px rgba(255, 0, 127, 0.5);
+      animation: logoGlow 3s infinite alternate ease-in-out;
     }
 
-    @keyframes pulseGlow {
-      0% { 
-        box-shadow: 0 0 10px rgba(0, 255, 204, 0.4); 
-        transform: scale(1) rotate(0deg);
-      }
-      100% { 
-        box-shadow: 0 0 35px rgba(255, 0, 204, 0.9), 0 0 15px rgba(255, 255, 255, 0.5); 
-        transform: scale(1.06) rotate(3deg);
-      }
+    @keyframes logoGlow {
+      0% { transform: scale(1) rotate(0deg); box-shadow: 0 0 15px rgba(0, 240, 255, 0.7), 0 0 30px rgba(255, 0, 127, 0.4); }
+      100% { transform: scale(1.06) rotate(3deg); box-shadow: 0 0 25px rgba(251, 188, 5, 0.9), 0 0 45px rgba(0, 240, 255, 0.8); }
+    }
+
+    .title-wrapper {
+      display: inline-block;
+      white-space: nowrap;
     }
 
     h1 {
       font-family: 'Fredoka', 'Heebo', sans-serif;
       font-weight: 700;
-      font-size: clamp(1.2rem, 4.5vw, 2.8rem);
+      font-size: clamp(1.8rem, 5.5vw, 2.7rem);
       margin: 0;
       line-height: 1.1;
-      letter-spacing: 1px;
-      -webkit-text-stroke: 1.5px #fff;
-      text-shadow:
-        0 6px 12px rgba(0,0,0,0.7),
-        0 0 15px rgba(255,255,255,0.4);
-      white-space: nowrap;
-    }
-
-    #main-title span {
-      display: inline-block;
-      animation: titleWave 2.5s infinite ease-in-out;
-    }
-
-    @keyframes titleWave {
-      0%, 100% { 
-        transform: translateY(0) scale(1) rotate(0deg); 
-        filter: drop-shadow(0 0 0px transparent);
-      }
-      25% { 
-        transform: translateY(-16px) scaleY(1.15) scaleX(0.9) rotate(-6deg); 
-        filter: drop-shadow(0 15px 15px rgba(255, 255, 255, 0.8)) brightness(1.3); 
-      }
-      50% {
-        transform: translateY(0) scaleY(0.9) scaleX(1.1) rotate(0deg);
-      }
-      75% { 
-        transform: translateY(-8px) scaleY(1.05) scaleX(0.95) rotate(6deg); 
-        filter: drop-shadow(0 8px 10px rgba(255, 255, 255, 0.6)) brightness(1.2); 
-      }
-    }
-
-    .subtitle {
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 5px;
       letter-spacing: 0.5px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+
+    .char {
       display: inline-block;
-      padding: 2px 14px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
-      box-shadow: none;
+      animation: charDance 2.4s infinite ease-in-out;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.8), 0 0 12px currentColor;
+    }
+
+    @keyframes charDance {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      30% { transform: translateY(-9px) rotate(-5deg) scale(1.12); }
+      60% { transform: translateY(3px) rotate(4deg) scale(0.96); }
     }
 
     .controls-bar {
       display: flex;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      margin-top: 12px;
-      padding: 0 15px 10px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .controls-bar::-webkit-scrollbar {
-      display: none;
+      gap: 12px;
+      margin-top: 10px;
     }
 
     .btn-group {
       display: flex;
-      background: rgba(5, 12, 35, 0.75);
+      background: rgba(0, 0, 0, 0.6);
       border-radius: var(--radius-large);
       padding: 4px;
-      border: 1px solid rgba(255,255,255,0.15);
-      flex-shrink: 0;
-      white-space: nowrap;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .btn {
       background: transparent;
-      color: #ddd;
+      color: #ccc;
       border: none;
       padding: 6px 16px;
       border-radius: var(--radius-large);
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
       transition: all 0.2s ease;
     }
 
-    .btn:hover { background: rgba(255,255,255,0.15); color: #fff; transform: translateY(-1px); }
+    .btn:hover { color: #fff; background: rgba(255, 255, 255, 0.15); }
     .btn.active {
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      background: linear-gradient(135deg, var(--google-blue), #00d2ff);
       color: #fff;
-      box-shadow: 0 0 15px rgba(0, 198, 255, 0.7);
-      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
+    }
+
+    .featured-container {
+      max-width: 1600px;
+      margin: 15px auto 10px;
+      padding: 0 15px;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 12px;
+    }
+
+    @media (min-width: 550px) {
+      .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .featured-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .featured-card {
+      position: relative;
+      background: var(--bg-panel);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 18px rgba(0, 240, 255, 0.4), 0 6px 20px rgba(0,0,0,0.8);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-card:hover {
+      border-color: var(--google-yellow);
+      box-shadow: 0 0 25px rgba(251, 188, 5, 0.6), 0 8px 25px rgba(0,0,0,0.9);
+      transform: translateY(-2px);
+    }
+
+    .featured-card.expanded {
+      grid-column: 1 / -1;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .featured-card.css-fullscreen {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      z-index: 99999 !important;
+      border-radius: 0 !important;
+      background: #000 !important;
+      margin: 0 !important;
+    }
+
+    .featured-card:fullscreen, .featured-card.css-fullscreen {
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      border-radius: 0 !important;
+      background: #000 !important;
+      border: none !important;
+      box-shadow: none !important;
+      justify-content: center;
+    }
+
+    .featured-card:fullscreen .featured-video-box,
+    .featured-card.css-fullscreen .featured-video-box {
+      flex: 1;
+      height: 100% !important;
+      aspect-ratio: auto !important;
+    }
+
+    .featured-header {
+      padding: 8px 12px;
+      background: linear-gradient(90deg, rgba(255,0,127,0.4), rgba(0,240,255,0.4));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.3px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .featured-header-title {
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .featured-footer {
+      padding: 6px 10px;
+      background: rgba(5, 12, 30, 0.9);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .fullscreen-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .fullscreen-btn:hover {
+      background: var(--google-blue);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
+    }
+
+    .featured-video-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .featured-video-box iframe {
+      position: absolute;
+      top: -48px;
+      left: 0;
+      width: 100%;
+      height: calc(100% + 48px);
+      border: none;
+      display: block;
+    }
+
+    .drive-guard {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 48px;
+      z-index: 10;
+      background: transparent;
+      pointer-events: auto;
     }
 
     .gallery-container {
       display: grid;
-      padding: 20px;
+      padding: 15px 20px 40px;
       max-width: 1800px;
       margin: 0 auto;
       min-height: 200px;
     }
 
-    .gallery-container[data-size="small"] { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
-    .gallery-container[data-size="medium"] { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-    .gallery-container[data-size="large"] { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .gallery-container[data-size="small"] { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+    .gallery-container[data-size="medium"] { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+    .gallery-container[data-size="large"] { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
 
-    .gallery-container.masonry-mode { display: block; column-gap: 10px; }
-    .gallery-container.masonry-mode[data-size="small"] { columns: 7 100px; }
-    .gallery-container.masonry-mode[data-size="medium"] { columns: 5 180px; }
-    .gallery-container.masonry-mode[data-size="large"] { columns: 3 300px; }
+    .gallery-container.masonry-mode { display: block; column-gap: 12px; }
+    .gallery-container.masonry-mode[data-size="small"] { columns: 6 130px; }
+    .gallery-container.masonry-mode[data-size="medium"] { columns: 4 220px; }
+    .gallery-container.masonry-mode[data-size="large"] { columns: 3 320px; }
 
     .gallery-container.masonry-mode .media-card {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       break-inside: avoid;
-      page-break-inside: avoid;
-      -webkit-column-break-inside: avoid;
       display: inline-block;
       width: 100%;
     }
@@ -237,60 +367,50 @@
       background: var(--bg-panel);
       border-radius: 12px;
       overflow: hidden;
-      border: 2px solid #1a2c5b;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      opacity: 0;
-      animation: popIn 0.5s ease-out forwards;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      transform-origin: center center;
+      border: 2px solid #1c2d5a;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
       z-index: 1;
-      will-change: transform;
-      backface-visibility: hidden;
     }
 
     .media-card:hover {
-      transform: scale(1.03);
+      transform: scale(1.035);
       border-color: var(--google-yellow);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.7), 0 0 10px rgba(253, 185, 19, 0.35);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.8), 0 0 15px rgba(251, 188, 5, 0.4);
       z-index: 10;
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .media-item {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
       object-fit: cover;
-      background: #0d1b3d;
+      background: #0a1532;
     }
 
-    .gallery-container:not(.masonry-mode) .media-item { aspect-ratio: 16 / 9; }
+    .gallery-container:not(.masonry-mode) .media-card { aspect-ratio: 16 / 9; }
     .gallery-container.masonry-mode .media-item { aspect-ratio: auto; }
 
     .video-icon {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 2.5rem;
-      color: rgba(255, 255, 255, 0.95);
-      text-shadow: 0 0 15px #00ffcc, 0 0 10px #000;
+      font-size: 2.2rem;
+      color: #fff;
+      text-shadow: 0 0 15px var(--neon-cyan), 0 0 10px #000;
       pointer-events: none;
-      z-index: 6;
+      z-index: 5;
       transition: opacity 0.2s;
     }
-    .media-card:hover .video-icon { opacity: 0; }
+    .media-card:hover .video-icon { opacity: 0.2; }
 
     #scroll-sentinel { width: 100%; height: 1px; }
 
     #lightbox {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 5, 8, 0.95);
-      backdrop-filter: blur(15px);
+      background: rgba(3, 7, 18, 0.95);
+      backdrop-filter: blur(18px);
       z-index: 9999;
       display: flex;
       justify-content: center;
@@ -303,16 +423,16 @@
 
     #lightbox-media-container {
       position: relative;
-      width: 100%; height: 100%;
+      width: 90vw; height: 88vh;
       display: flex; justify-content: center; align-items: center;
     }
 
     #lightbox-content {
       max-width: 90vw;
-      max-height: 90vh;
+      max-height: 85vh;
       border-radius: var(--radius-large);
-      box-shadow: 0 0 40px rgba(0, 255, 200, 0.3);
-      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+      border: 2px solid rgba(255,255,255,0.15);
       transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
     }
 
@@ -320,11 +440,11 @@
       position: absolute;
       top: 20px; right: 20px;
       color: #fff;
-      font-size: 2rem;
+      font-size: 1.8rem;
       z-index: 10000;
       background: rgba(255,255,255,0.1);
       border-radius: 50%;
-      width: 50px; height: 50px;
+      width: 48px; height: 48px;
       display: flex; justify-content: center; align-items: center;
       transition: all 0.2s;
     }
@@ -335,67 +455,34 @@
       top: 50%;
       transform: translateY(-50%);
       color: #fff;
-      font-size: 3rem;
+      font-size: 2.5rem;
       z-index: 10000;
       background: rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 50%;
-      width: 60px; height: 60px;
+      width: 56px; height: 56px;
       display: flex; justify-content: center; align-items: center;
       transition: all 0.2s;
     }
     .nav-btn:hover { background: var(--google-blue); box-shadow: 0 0 20px var(--google-blue); }
     .prev-btn { right: 20px; }
     .next-btn { left: 20px; }
-
-    #lightbox-loader {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60px; height: 60px;
-      border: 4px solid rgba(255,255,255,0.1);
-      border-top-color: var(--google-yellow);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      display: none;
-      z-index: 10001;
-    }
-    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-    #video-state-icon {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5rem;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 0 20px rgba(0,0,0,0.8);
-      z-index: 10002;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    #video-state-icon.show {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.1);
-    }
   </style>
 </head>
 <body>
 
+  <!-- Background Light Beams -->
   <div class="bg-spotlights">
-    <!-- 4 זרקורים המכוונים מטה אל עבר התמונות -->
-    <div class="spotlight"></div>
-    <div class="spotlight"></div>
-    <div class="spotlight"></div>
-    <div class="spotlight"></div>
+    <div class="light-beam"></div>
+    <div class="light-beam"></div>
+    <div class="light-beam"></div>
   </div>
 
   <header id="main-header">
     <div class="header-top-row">
       <img src="https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=150" class="header-logo" alt="לוגו">
       <div>
-        <h1 id="main-title">קעמפ ביה״ז אב פ״ה באופקים</h1>
-        <div class="subtitle">בנשיאות הגרא״ד האוסמן הי״ו</div>
+        <h1 id="main-title"><span class="title-wrapper">קעמפ ביה״ז אב פ״ה באופקים</span></h1>
       </div>
       <img src="https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=150" class="header-logo" alt="לוגו">
     </div>
@@ -412,11 +499,97 @@
         <button class="btn" onclick="setSize('large', this)">גדול</button>
       </div>
       <div class="btn-group">
-        <button class="btn active" onclick="setLayout('grid', this)">ריבועים קבועים</button>
+        <button class="btn active" onclick="setLayout('grid', this)">מלבנים קבועים</button>
         <button class="btn" onclick="setLayout('masonry', this)">תפזורת מלאה</button>
       </div>
     </div>
   </header>
+
+  <div class="featured-container" id="featured-section">
+    <div class="featured-grid">
+      
+      <!-- סרטון 1 -->
+      <div class="featured-card">
+        <div class="featured-header">
+          <div class="featured-header-title">
+            <span>🎬</span>
+            <span>תחרות הנואמים האגדית - סשן מלא</span>
+          </div>
+        </div>
+        <div class="featured-video-box">
+          <iframe src="https://drive.google.com/file/d/17Aq4sulPpnChSHYwkXDWQezZsHqjlmiJ/preview" allow="autoplay" allowfullscreen></iframe>
+          <div class="drive-guard"></div>
+        </div>
+        <div class="featured-footer">
+          <div class="header-actions">
+            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
+            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- סרטון 2 -->
+      <div class="featured-card">
+        <div class="featured-header">
+          <div class="featured-header-title">
+            <span>🎬</span>
+            <span>תוכנית הכל הולך של בויאר</span>
+          </div>
+        </div>
+        <div class="featured-video-box">
+          <iframe src="https://drive.google.com/file/d/1cdLPIiRvJSGJUvr0wZTCducA38dMpmlM/preview" allow="autoplay" allowfullscreen></iframe>
+          <div class="drive-guard"></div>
+        </div>
+        <div class="featured-footer">
+          <div class="header-actions">
+            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
+            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- סרטון 3 -->
+      <div class="featured-card">
+        <div class="featured-header">
+          <div class="featured-header-title">
+            <span>🎬</span>
+            <span>מבט מלמעלה על הקעמפ</span>
+          </div>
+        </div>
+        <div class="featured-video-box">
+          <iframe src="https://drive.google.com/file/d/1-ntfgqyeP7OseNXIBbaEZmt_4cyQ7rUE/preview" allow="autoplay" allowfullscreen></iframe>
+          <div class="drive-guard"></div>
+        </div>
+        <div class="featured-footer">
+          <div class="header-actions">
+            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
+            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- סרטון 4 -->
+      <div class="featured-card">
+        <div class="featured-header">
+          <div class="featured-header-title">
+            <span>🎬</span>
+            <span>פאנל פוליטי מרתק בהנחיית בני פרידמן</span>
+          </div>
+        </div>
+        <div class="featured-video-box">
+          <iframe src="https://drive.google.com/file/d/1J6wKrk3ham-L9rwHBrNne-IX5ow8ht9k/preview" allow="autoplay" allowfullscreen></iframe>
+          <div class="drive-guard"></div>
+        </div>
+        <div class="featured-footer">
+          <div class="header-actions">
+            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
+            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <main id="gallery" class="gallery-container" data-size="medium"></main>
 
@@ -426,34 +599,94 @@
     <div class="close-btn" onclick="closeLightbox()">✖</div>
     <div class="nav-btn prev-btn" onclick="navigateLightbox(-1)">❯</div>
     <div class="nav-btn next-btn" onclick="navigateLightbox(1)">❮</div>
-    
     <div id="lightbox-loader"></div>
-    <div id="video-state-icon"></div>
-    
     <div id="lightbox-media-container"></div>
   </div>
 
   <script>
     document.addEventListener('contextmenu', e => e.preventDefault());
-    
-    /* צביעת אותיות הכותרת */
+
+    function toggleCardExpand(btn) {
+      const card = btn.closest('.featured-card');
+      card.classList.toggle('expanded');
+      btn.textContent = card.classList.contains('expanded') ? '✖ מזער' : '🔍 הרחב';
+    }
+
+    function toggleCardFullscreen(btn) {
+      const card = btn.closest('.featured-card');
+      
+      // אם כבר במצב מסך מלא מבוסס CSS, ניצא ממנו
+      if (card.classList.contains('css-fullscreen')) {
+        card.classList.remove('css-fullscreen');
+        btn.textContent = '⛶ מסך מלא';
+        return;
+      }
+
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        try {
+          const req = card.requestFullscreen 
+            ? card.requestFullscreen() 
+            : (card.webkitRequestFullscreen ? card.webkitRequestFullscreen() : null);
+
+          if (req && req.catch) {
+            req.catch((err) => {
+              console.warn('Native fullscreen disallowed by permissions policy, using CSS fallback.', err);
+              card.classList.add('css-fullscreen');
+              btn.textContent = '✖ צא ממסך מלא';
+            });
+          } else if (!req) {
+            card.classList.add('css-fullscreen');
+            btn.textContent = '✖ צא ממסך מלא';
+          }
+        } catch (e) {
+          card.classList.add('css-fullscreen');
+          btn.textContent = '✖ צא ממסך מלא';
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        document.querySelectorAll('.featured-card').forEach(c => {
+          c.classList.remove('css-fullscreen');
+          const btns = c.querySelectorAll('.fullscreen-btn');
+          btns.forEach(btn => {
+            if (btn.textContent.includes('מסך מלא') || btn.textContent.includes('צא')) {
+              btn.textContent = '⛶ מסך מלא';
+            }
+          });
+        });
+      }
+    });
+
+    /* Colorize and animate header title letters smoothly */
     (function colorizeTitle() {
-      const el = document.getElementById('main-title');
-      const palette = ['#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', '#007AFF', '#5856D6', '#FF2D55', '#00FFCC'];
+      const el = document.querySelector('.title-wrapper');
+      if (!el) return;
+      const palette = ['#ea4335', '#4285f4', '#fbbc05', '#34a853', '#ff007f', '#00f0ff', '#ff9f00'];
       const text = el.textContent;
-      el.innerHTML = text.split('').map((ch, index) => {
+      let i = 0;
+      el.innerHTML = text.split('').map((ch) => {
         if (ch === ' ') return '&nbsp;';
-        const color = palette[index % palette.length];
-        return `<span style="color:${color}; animation-delay: ${index * 0.05}s">${ch}</span>`;
+        const color = palette[i % palette.length];
+        const delay = (i * 0.08).toFixed(2);
+        i++;
+        return `<span class="char" style="color:${color}; animation-delay: ${delay}s">${ch}</span>`;
       }).join('');
     })();
 
-    /* העלמת תפריט בגלילה למטה */
+    /* Header hide on scroll */
     let lastScroll = 0;
     const header = document.getElementById('main-header');
     window.addEventListener('scroll', () => {
       const currentScroll = window.scrollY;
-      if (currentScroll > 50) header.classList.add('hidden');
+      if (currentScroll > 80) header.classList.add('hidden');
       else header.classList.remove('hidden');
       lastScroll = currentScroll;
     });
@@ -462,62 +695,100 @@
     let filteredMedia = [];
     let currentBatchIndex = 0;
     let currentLightboxIndex = -1;
-    const BATCH_SIZE = 24; 
+    const BATCH_SIZE = 24;
 
     const galleryEl = document.getElementById('gallery');
     const sentinel = document.getElementById('scroll-sentinel');
     let isRendering = false;
 
-    const mediaObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          if (el.dataset.src) {
-            el.src = el.dataset.src;
-            el.removeAttribute('data-src');
-            if (el.tagName === 'VIDEO') el.load();
-          }
-          observer.unobserve(el);
-        }
-      });
-    }, { rootMargin: '300px' });
-
     async function fetchFromGitHub() {
+      if (galleryEl) {
+        galleryEl.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #00f0ff; font-weight: bold;">טוען את המדיה מ-GitHub... ⏳</div>';
+      }
+
+      let filePaths = [];
+
+      // 1. ניסיון טעינה מ-GitHub API
       try {
         const repoUrl = 'https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/main?recursive=1';
-        let res = await fetch(repoUrl);
-        let data = await res.json();
-        
-        if (!data.tree) {
-            res = await fetch('https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/master?recursive=1');
-            data = await res.json();
+        const res = await fetch(repoUrl);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.tree)) {
+            filePaths = data.tree
+              .filter(f => f.type === 'blob')
+              .map(f => f.path);
+          }
         }
-        
-        if (!data.tree) return;
-
-        allMedia = data.tree
-          .filter(f => f.type === 'blob' && f.path.match(/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov|m4v|ogg|avi|mkv)$/i))
-          .map(f => {
-            const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${f.path}`;
-            const isVideo = !!f.path.match(/\.(mp4|webm|mov|m4v|ogg|avi|mkv)$/i);
-            
-            let thumbUrl = isVideo 
-              ? `${rawUrl}#t=0.001` 
-              : `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=600&q=80`;
-              
-            return { url: rawUrl, isVideo, thumb: thumbUrl };
-          });
-
-        allMedia.sort(() => Math.random() - 0.5);
-        filteredMedia = [...allMedia];
-        
-        galleryEl.innerHTML = '';
-        currentBatchIndex = 0;
-        await checkAndLoadMore();
-
       } catch (err) {
-        console.error(err);
+        console.warn('GitHub API fetch failed, trying jsDelivr fallback...', err);
       }
+
+      // 2. גיבוי מ-jsDelivr API
+      if (filePaths.length === 0) {
+        try {
+          const jsdelivrUrl = 'https://data.jsdelivr.com/v1/packages/gh/y3204044-art/camp05485300-gmail.com@main?structure=flat';
+          const res = await fetch(jsdelivrUrl);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && Array.isArray(data.files)) {
+              filePaths = data.files.map(f => f.name.replace(/^\//, ''));
+            }
+          }
+        } catch (err) {
+          console.warn('jsDelivr API fetch also failed...', err);
+        }
+      }
+
+      // 3. ניסיון לענף master
+      if (filePaths.length === 0) {
+        try {
+          const masterUrl = 'https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/master?recursive=1';
+          const res = await fetch(masterUrl);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && Array.isArray(data.tree)) {
+              filePaths = data.tree
+                .filter(f => f.type === 'blob')
+                .map(f => f.path);
+            }
+          }
+        } catch (err) {
+          console.warn('Master branch fetch failed...', err);
+        }
+      }
+
+      // סינון קבצי מדיה תקינים
+      const mediaPaths = filePaths.filter(path => path.match(/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov|m4v|ogg)$/i));
+
+      if (mediaPaths.length === 0) {
+        if (galleryEl) {
+          galleryEl.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #ff4a4a;">
+              <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 10px;">לא ניתן היה לטעון את התמונות מ-GitHub</p>
+              <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 20px;">ייתכן שיש חסימת רשת זמנית. לחץ למטה כדי לנסות שנית.</p>
+              <button class="fullscreen-btn" style="margin: 0 auto; display: inline-flex;" onclick="fetchFromGitHub()">🔄 נסה שנית</button>
+            </div>`;
+        }
+        return;
+      }
+
+      allMedia = mediaPaths.map(path => {
+        const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${path}`;
+        const isVideo = !!path.match(/\.(mp4|webm|mov|m4v|ogg)$/i);
+        const thumbUrl = isVideo 
+          ? `${rawUrl}#t=0.1` 
+          : `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=500&q=70`;
+          
+        return { url: rawUrl, isVideo, thumb: thumbUrl };
+      });
+
+      allMedia.sort(() => Math.random() - 0.5);
+      filteredMedia = [...allMedia];
+      
+      galleryEl.innerHTML = '';
+      currentBatchIndex = 0;
+      await checkAndLoadMore();
     }
 
     async function renderBatch() {
@@ -535,23 +806,16 @@
 
         if (item.isVideo) {
           const video = document.createElement('video');
-          video.dataset.src = item.thumb;
+          video.src = item.thumb;
           video.className = 'media-item';
           video.muted = true;
           video.loop = true;
-          video.preload = 'none';
-          video.playsInline = true;
-          video.crossOrigin = 'anonymous';
+          video.preload = 'metadata';
           
           let playPromise;
-          card.onmouseenter = () => { 
-            if(!video.src) video.src = item.thumb;
-            playPromise = video.play().catch(()=>{}); 
-          };
+          card.onmouseenter = () => { playPromise = video.play().catch(()=>{}); };
           card.onmouseleave = () => { if(playPromise) playPromise.then(()=>video.pause()).catch(()=>{}); };
           card.appendChild(video);
-          
-          mediaObserver.observe(video);
           
           const icon = document.createElement('div');
           icon.className = 'video-icon';
@@ -560,11 +824,10 @@
         } else {
           const img = document.createElement('img');
           img.className = 'media-item';
-          img.dataset.src = item.thumb;
+          img.loading = 'lazy';
+          img.src = item.thumb;
           img.onerror = () => { img.src = item.url; };
           card.appendChild(img);
-          
-          mediaObserver.observe(img);
         }
         
         fragment.appendChild(card);
@@ -577,13 +840,12 @@
 
     async function checkAndLoadMore() {
       if (isRendering || currentBatchIndex >= filteredMedia.length) return;
-
       const scrollBottom = window.innerHeight + window.scrollY;
       const docHeight = document.documentElement.scrollHeight || document.documentElement.offsetHeight;
       
       if (docHeight - scrollBottom < 1200 || window.innerHeight >= docHeight) {
         await renderBatch();
-        setTimeout(checkAndLoadMore, 100);
+        setTimeout(checkAndLoadMore, 120);
       }
     }
 
@@ -592,7 +854,7 @@
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) checkAndLoadMore();
-    }, { rootMargin: '1000px 0px' });
+    }, { rootMargin: '800px 0px' });
     
     observer.observe(sentinel);
 
@@ -611,9 +873,17 @@
     }
     
     async function setFilter(type, btn) {
-      if (type === 'all') filteredMedia = allMedia;
-      else if (type === 'images') filteredMedia = allMedia.filter(m => !m.isVideo);
-      else if (type === 'videos') filteredMedia = allMedia.filter(m => m.isVideo);
+      const featSec = document.getElementById('featured-section');
+      if (type === 'images') {
+        filteredMedia = allMedia.filter(m => !m.isVideo);
+        if (featSec) featSec.style.display = 'none';
+      } else if (type === 'videos') {
+        filteredMedia = allMedia.filter(m => m.isVideo);
+        if (featSec) featSec.style.display = 'block';
+      } else {
+        filteredMedia = allMedia;
+        if (featSec) featSec.style.display = 'block';
+      }
       
       galleryEl.innerHTML = '';
       currentBatchIndex = 0;
@@ -632,68 +902,30 @@
     function openLightbox(index) {
       currentLightboxIndex = index;
       lightbox.classList.add('active');
-      renderLightboxContent(filteredMedia[currentLightboxIndex], 0);
+      renderLightboxContent(filteredMedia[currentLightboxIndex]);
     }
 
-    function renderLightboxContent(item, direction) {
-      const oldContent = document.getElementById('lightbox-content');
-      if (oldContent) {
-        oldContent.id = 'lightbox-content-old';
-        oldContent.style.opacity = '0';
-        oldContent.style.transform = direction > 0 ? 'translateX(-100px)' : (direction < 0 ? 'translateX(100px)' : 'scale(0.8)');
-        setTimeout(() => { if (oldContent.parentNode) oldContent.remove(); }, 300);
-      }
-
+    function renderLightboxContent(item) {
+      lbContainer.innerHTML = '';
       const loader = document.getElementById('lightbox-loader');
-      const stateIcon = document.getElementById('video-state-icon');
-      
-      loader.style.display = 'block';
-      stateIcon.classList.remove('show');
+      if (loader) loader.style.display = 'block';
 
       let elem;
       if (item.isVideo) {
         elem = document.createElement('video');
         elem.src = item.url;
-        elem.controls = false;
+        elem.controls = true;
         elem.autoplay = true;
-        elem.loop = true;
-        elem.playsInline = true;
-        elem.crossOrigin = 'anonymous';
         elem.id = 'lightbox-content';
-        
-        elem.oncanplay = () => loader.style.display = 'none';
-        elem.onplaying = () => loader.style.display = 'none';
-        elem.onwaiting = () => loader.style.display = 'block';
-        
-        elem.onclick = (e) => {
-          e.stopPropagation();
-          if (elem.paused) {
-            elem.play();
-            stateIcon.innerHTML = '▶';
-            stateIcon.classList.add('show');
-            setTimeout(() => stateIcon.classList.remove('show'), 600);
-          } else {
-            elem.pause();
-            stateIcon.innerHTML = '❚❚';
-            stateIcon.classList.add('show');
-          }
-        };
+        elem.oncanplay = () => { if (loader) loader.style.display = 'none'; };
       } else {
         elem = document.createElement('img');
-        elem.onload = () => loader.style.display = 'none';
+        elem.onload = () => { if (loader) loader.style.display = 'none'; };
         elem.src = item.url;
         elem.id = 'lightbox-content';
       }
-
-      elem.style.opacity = '0';
-      elem.style.transform = direction > 0 ? 'translateX(100px)' : (direction < 0 ? 'translateX(-100px)' : 'scale(0.9)');
       
-      lbContainer.insertBefore(elem, lbContainer.firstChild);
-
-      void elem.offsetWidth;
-
-      elem.style.opacity = '1';
-      elem.style.transform = 'scale(1) translateX(0)';
+      lbContainer.appendChild(elem);
     }
 
     function navigateLightbox(dir) {
@@ -701,19 +933,13 @@
       currentLightboxIndex += dir;
       if (currentLightboxIndex < 0) currentLightboxIndex = filteredMedia.length - 1;
       if (currentLightboxIndex >= filteredMedia.length) currentLightboxIndex = 0;
-      renderLightboxContent(filteredMedia[currentLightboxIndex], dir);
+      renderLightboxContent(filteredMedia[currentLightboxIndex]);
     }
 
     function closeLightbox() {
       lightbox.classList.remove('active');
       currentLightboxIndex = -1;
-      setTimeout(() => {
-        const content = document.getElementById('lightbox-content');
-        if (content) {
-          if (content.tagName === 'VIDEO') content.pause();
-          content.remove();
-        }
-      }, 300);
+      lbContainer.innerHTML = '';
     }
 
     document.addEventListener('keydown', (e) => {
@@ -721,23 +947,6 @@
         if (e.key === 'ArrowLeft') navigateLightbox(1);
         else if (e.key === 'ArrowRight') navigateLightbox(-1);
         else if (e.key === 'Escape') closeLightbox();
-        else if (e.code === 'Space') {
-          e.preventDefault();
-          const video = document.getElementById('lightbox-content');
-          const stateIcon = document.getElementById('video-state-icon');
-          if (video && video.tagName === 'VIDEO') {
-            if (video.paused) {
-              video.play();
-              stateIcon.innerHTML = '▶';
-              stateIcon.classList.add('show');
-              setTimeout(() => stateIcon.classList.remove('show'), 600);
-            } else {
-              video.pause();
-              stateIcon.innerHTML = '❚❚';
-              stateIcon.classList.add('show');
-            }
-          }
-        }
       }
     });
 
