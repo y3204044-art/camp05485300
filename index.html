@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>קעמפ ביה״ז אב פ״ה באופקים</title>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --bg-dark: #0a1128;
@@ -71,15 +72,31 @@
     }
     header.hidden { transform: translateY(-100%); }
 
-    .logo-container { margin-bottom: 6px; }
-    .logo-img {
-      max-height: 60px;
-      border-radius: 8px;
+    /* שורת הכותרת החדשה עם הלוגואים בצדדים */
+    .top-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5vw;
+      margin-bottom: 6px;
+    }
+
+    .header-logo {
+      width: clamp(45px, 12vw, 80px);
+      height: clamp(45px, 12vw, 80px);
+      object-fit: cover;
+      border-radius: 12px;
       box-shadow: 0 0 15px rgba(253, 185, 19, 0.4);
       border: 2px solid #fff;
     }
 
-    /* כותרת - כל אות צבועה בנפרד בסגנון בלוני הקרקס (מוזרק ב-JS) */
+    .title-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
     h1 {
       font-family: 'Heebo', sans-serif;
       font-weight: 900;
@@ -95,7 +112,6 @@
         0 6px 12px rgba(0,0,0,0.7);
     }
 
-    /* תת כותרת - קטנה מאוד ועדינה */
     .subtitle {
       font-size: 0.5rem;
       font-weight: 700;
@@ -173,7 +189,6 @@
       width: 100%;
     }
 
-    /* כרטיס מדיה - ריחוף עדין מאוד, כמעט ולא מורגש, בלי קפיצות */
     .media-card {
       position: relative;
       background: var(--bg-panel);
@@ -208,7 +223,7 @@
       height: auto;
       display: block;
       object-fit: cover;
-      background: #0d1b3d; /* מונע "חור לבן" בזמן טעינת תמונה */
+      background: #0d1b3d;
     }
 
     .gallery-container:not(.masonry-mode) .media-item {
@@ -238,7 +253,6 @@
       z-index: 5;
     }
 
-    /* מחוון טעינה - מהבהב יפה עם נקודות, לא קופץ */
     .loading-indicator {
       display: none;
       align-items: center;
@@ -324,11 +338,18 @@
   </div>
 
   <header id="main-header">
-    <div class="logo-container">
-      <img src="logo.jpg" class="logo-img" alt="לוגו" onerror="this.style.display='none'">
+    <div class="top-header-row">
+      <!-- לוגו ימין -->
+      <img src="logo.jpg" class="header-logo" alt="לוגו ימין" onerror="this.style.display='none'">
+      
+      <div class="title-wrapper">
+        <h1 id="main-title">קעמפ ביה״ז אב פ״ה באופקים</h1>
+        <div class="subtitle">בנשיאות הגרא״ד האוסמן הי״ו</div>
+      </div>
+
+      <!-- לוגו שמאל -->
+      <img src="logo.jpg" class="header-logo" alt="לוגו שמאל" onerror="this.style.display='none'">
     </div>
-    <h1 id="main-title">קעמפ ביה״ז אב פ״ה באופקים</h1>
-    <div class="subtitle">בנשיאות הגרא״ד האוסמן הי״ו</div>
 
     <div class="controls-bar">
       <div class="btn-group">
@@ -352,7 +373,7 @@
 
   <div id="loading-indicator" class="loading-indicator">
     <div class="loading-spinner"></div>
-    <span class="loading-text">המערכת טוענת עוד תמונות וחומר...</span>
+    <span class="loading-text">המערכת טוענת עוד תמונות וחומר מהמאגר...</span>
   </div>
 
   <div id="scroll-sentinel"></div>
@@ -371,7 +392,6 @@
       if (e.key === 'F12') e.preventDefault();
     });
 
-    // ===== צביעת הכותרת אות-אות בסגנון בלוני הקרקס =====
     (function colorizeTitle() {
       const el = document.getElementById('main-title');
       const palette = ['#EA4335', '#4285F4', '#FBBC05', '#34A853', '#e6007e', '#f7941d', '#00a99d', '#ff6f91'];
@@ -397,41 +417,65 @@
     let allMedia = [];
     let filteredMedia = [];
     let currentBatchIndex = 0;
-    const BATCH_SIZE = 10;              // קבוצות קטנות יותר = פחות עומס בכל פעם
-    const MIN_INDICATOR_MS = 500;       // זמן מינימלי שהמחוון יוצג, כדי שלא "יהבהב" מהר מדי
-    const PAUSE_BETWEEN_BATCHES = 700;  // נשימה בין קבוצה לקבוצה - טעינה איטית ובטוחה
+    const BATCH_SIZE = 12; // כמות תמונות לכל קבוצה
+    const MIN_INDICATOR_MS = 500;
+    const PAUSE_BETWEEN_BATCHES = 500;
 
     const galleryEl = document.getElementById('gallery');
     const loadingIndicator = document.getElementById('loading-indicator');
     const sentinel = document.getElementById('scroll-sentinel');
 
     let isRendering = false;
-    let canLoadMore = false; // נפתח רק אחרי שהטעינה הראשונה הסתיימה בהצלחה
+    let canLoadMore = false;
 
     function delay(ms) { return new Promise(res => setTimeout(res, ms)); }
 
     async function fetchFromGitHub() {
       loadingIndicator.classList.add('visible');
+      const textEl = loadingIndicator.querySelector('.loading-text');
+      const spinner = loadingIndicator.querySelector('.loading-spinner');
+      textEl.textContent = "מתחבר למאגר, אנא המתן...";
+
       try {
-        const repoUrl = 'https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/main?recursive=1';
-        const res = await fetch(repoUrl);
+        const repoOwner = 'y3204044-art';
+        const repoName = 'camp05485300-gmail.com';
+        
+        // ניסיון ישיר למשוך מענף main, ואם לא מצליח מנסה master
+        let branch = 'main';
+        let res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/git/trees/main?recursive=1`);
+        
+        if (!res.ok) {
+           res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/git/trees/master?recursive=1`);
+           branch = 'master';
+        }
+
+        if (res.status === 403 || res.status === 429) throw new Error('RATE_LIMIT');
+        if (!res.ok) throw new Error('NETWORK_ERROR');
+
         const data = await res.json();
+        if (!data.tree || data.tree.length === 0) throw new Error('EMPTY_REPO');
 
-        if (!data.tree) throw new Error('No files found');
-
+        // סינון רק קבצי מדיה ויצירת קישורים ישירים חסינים
         allMedia = data.tree
           .filter(f => f.type === 'blob' && f.path.match(/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov)$/i))
           .map(f => {
-            const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${f.path}`;
+            // קידוד מיוחד כדי לאפשר שמות עם רווחים ועברית בלי להישבר
+            const encodedPath = f.path.split('/').map(encodeURIComponent).join('/');
+            
+            // חיבור סופר-ישיר ללא CDN של צד שלישי (מבטיח עבודה יציבה)
+            const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/${encodedPath}`;
             const isVideo = !!f.path.match(/\.(mp4|webm|mov)$/i);
+            
             return {
               url: rawUrl,
               isVideo,
-              // איכות נמוכה מאוד לתצוגה מקדימה - טעינה מהירה ויציבה יותר
-              thumb: isVideo ? rawUrl : `https://images.weserv.nl/?url=${encodeURIComponent(rawUrl)}&w=140&q=25`
+              thumb: rawUrl // ללא שירותי כיווץ, הכל נמשך ישירות!
             };
           });
 
+        if (allMedia.length === 0) throw new Error('NO_MEDIA');
+
+        textEl.textContent = "המערכת טוענת עוד תמונות וחומר...";
         allMedia.sort(() => Math.random() - 0.5);
         filteredMedia = [...allMedia];
 
@@ -441,8 +485,14 @@
         canLoadMore = true;
 
       } catch (err) {
-        loadingIndicator.querySelector('.loading-text').textContent = 'שגיאה בטעינת החומר. נסו לרענן את הדף.';
-        loadingIndicator.querySelector('.loading-spinner').style.display = 'none';
+        spinner.style.display = 'none';
+        if (err.message === 'RATE_LIMIT') {
+          textEl.textContent = 'גיטהאב חסם זמנית בגלל עומס ריענונים (Rate Limit). נא להמתין דקה ולרענן.';
+        } else if (err.message === 'EMPTY_REPO' || err.message === 'NO_MEDIA') {
+          textEl.textContent = 'לא נמצאו תמונות או סרטונים במאגר.';
+        } else {
+          textEl.textContent = 'שגיאה בחיבור לשרת. נסו לרענן שוב.';
+        }
       }
     }
 
@@ -452,11 +502,9 @@
 
       isRendering = true;
       loadingIndicator.classList.add('visible');
-      const indicatorShownAt = Date.now();
 
       const fragment = document.createDocumentFragment();
       const end = Math.min(currentBatchIndex + BATCH_SIZE, filteredMedia.length);
-      const loadPromises = [];
 
       for (let i = currentBatchIndex; i < end; i++) {
         const item = filteredMedia[i];
@@ -488,19 +536,11 @@
           icon.className = 'video-icon';
           icon.innerHTML = '▶';
           card.appendChild(icon);
-
-          loadPromises.push(Promise.resolve());
         } else {
           const img = document.createElement('img');
           img.className = 'media-item';
-          img.loading = 'lazy';
-
-          const imgPromise = new Promise(resolve => {
-            img.onload = resolve;
-            img.onerror = resolve;
-            img.src = item.thumb;
-          });
-          loadPromises.push(imgPromise);
+          img.loading = 'lazy'; // טעינה "עצלה" חכמה
+          img.src = item.thumb;
           card.appendChild(img);
         }
 
@@ -508,25 +548,13 @@
         fragment.appendChild(card);
       }
 
-      // מחכים שכל הפריטים בקבוצה יסיימו לרדת במלואם - כדי שלא יהיו קפיצות
-      await Promise.all(loadPromises);
-
-      // מוודאים שהמחוון הוצג זמן מינימלי, כדי שלא יהבהב מהר מדי וייראה מבולבל
-      const elapsed = Date.now() - indicatorShownAt;
-      if (elapsed < MIN_INDICATOR_MS) {
-        await delay(MIN_INDICATOR_MS - elapsed);
-      }
-
+      /* אין יותר המתנה! זורקים הכל מיד למסך ונותנים לדפדפן לעבוד במקביל */
       galleryEl.appendChild(fragment);
       currentBatchIndex = end;
       loadingIndicator.classList.remove('visible');
-
-      // נשימה בין קבוצה לקבוצה - טעינה מכוונת, איטית ובטוחה
-      await delay(PAUSE_BETWEEN_BATCHES);
       isRendering = false;
     }
 
-    // טעינה נוספת דרך IntersectionObserver - יציב יותר מהאזנה לגלילה גולמית
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && canLoadMore && !isRendering) {
