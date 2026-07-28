@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>קעמפ ביה״ז אב פ״ה באופקים</title>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0a1128;
@@ -19,7 +19,7 @@
 
     * { 
       box-sizing: border-box; 
-      cursor: url('https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=20&h=20&fit=cover&mask=circle') 10 10, auto !important;
+      cursor: url('https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=28&h=28&fit=cover&mask=circle') 14 14, auto !important;
     }
 
     body {
@@ -44,18 +44,25 @@
 
     .spotlight {
       position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.35;
-      animation: floatSpotlight 24s infinite alternate ease-in-out;
+      top: -10vh;
+      width: 50vw;
+      height: 120vh;
+      clip-path: polygon(45% 0, 55% 0, 100% 100%, 0% 100%);
+      filter: blur(25px);
+      transform-origin: 50% 0; /* ציר הסיבוב בחלק העליון */
+      mix-blend-mode: screen;
+      opacity: 0.85;
+      animation: sweep 12s infinite alternate ease-in-out;
     }
-    .spotlight:nth-child(1) { width: 50vw; height: 50vw; background: #00bb3f; top: -10%; left: -10%; }
-    .spotlight:nth-child(2) { width: 60vw; height: 60vw; background: #0056a0; bottom: -20%; right: -10%; animation-delay: -6s; }
-    .spotlight:nth-child(3) { width: 40vw; height: 40vw; background: #00ffcc; top: 40%; left: 30%; animation-delay: -12s; }
 
-    @keyframes floatSpotlight {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(12vw, 12vh) scale(1.15); }
+    .spotlight:nth-child(1) { left: -20%; background: linear-gradient(180deg, rgba(0, 255, 170, 0.8) 0%, transparent 100%); animation-duration: 13s; }
+    .spotlight:nth-child(2) { left: 10%; background: linear-gradient(180deg, rgba(0, 114, 255, 0.8) 0%, transparent 100%); animation-delay: -3s; animation-duration: 15s; }
+    .spotlight:nth-child(3) { left: 40%; background: linear-gradient(180deg, rgba(255, 0, 170, 0.8) 0%, transparent 100%); animation-delay: -7s; animation-duration: 17s; }
+    .spotlight:nth-child(4) { left: 70%; background: linear-gradient(180deg, rgba(253, 185, 19, 0.8) 0%, transparent 100%); animation-delay: -11s; animation-duration: 14s; }
+
+    @keyframes sweep {
+      0% { transform: rotate(-25deg) scaleY(1); }
+      100% { transform: rotate(25deg) scaleY(1.15); }
     }
 
     header {
@@ -82,84 +89,121 @@
     }
 
     .header-logo {
-      width: 80px;
-      height: 80px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       object-fit: cover;
-      -webkit-mask-image: radial-gradient(circle, black 50%, transparent 100%);
-      mask-image: radial-gradient(circle, black 50%, transparent 100%);
-      filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.6));
-      animation: pulseGlow 3s infinite alternate;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      animation: pulseGlow 2.5s infinite alternate ease-in-out;
+      z-index: 2;
     }
 
     @keyframes pulseGlow {
-      from { filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.5)); }
-      to { filter: drop-shadow(0 0 20px rgba(255, 0, 204, 0.8)); }
+      0% { 
+        box-shadow: 0 0 10px rgba(0, 255, 204, 0.4); 
+        transform: scale(1) rotate(0deg);
+      }
+      100% { 
+        box-shadow: 0 0 35px rgba(255, 0, 204, 0.9), 0 0 15px rgba(255, 255, 255, 0.5); 
+        transform: scale(1.06) rotate(3deg);
+      }
     }
 
     h1 {
-      font-family: 'Heebo', sans-serif;
-      font-weight: 900;
-      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      font-family: 'Fredoka', 'Heebo', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.2rem, 4.5vw, 2.8rem);
       margin: 0;
       line-height: 1.1;
       letter-spacing: 1px;
+      -webkit-text-stroke: 1.5px #fff;
       text-shadow:
-        -1.5px -1.5px 0 #fff,
-        1.5px -1.5px 0 #fff,
-        -1.5px 1.5px 0 #fff,
-        1.5px 1.5px 0 #fff,
-        0 6px 12px rgba(0,0,0,0.7);
+        0 6px 12px rgba(0,0,0,0.7),
+        0 0 15px rgba(255,255,255,0.4);
+      white-space: nowrap;
+    }
+
+    #main-title span {
+      display: inline-block;
+      animation: titleWave 2.5s infinite ease-in-out;
+    }
+
+    @keyframes titleWave {
+      0%, 100% { 
+        transform: translateY(0) scale(1) rotate(0deg); 
+        filter: drop-shadow(0 0 0px transparent);
+      }
+      25% { 
+        transform: translateY(-16px) scaleY(1.15) scaleX(0.9) rotate(-6deg); 
+        filter: drop-shadow(0 15px 15px rgba(255, 255, 255, 0.8)) brightness(1.3); 
+      }
+      50% {
+        transform: translateY(0) scaleY(0.9) scaleX(1.1) rotate(0deg);
+      }
+      75% { 
+        transform: translateY(-8px) scaleY(1.05) scaleX(0.95) rotate(6deg); 
+        filter: drop-shadow(0 8px 10px rgba(255, 255, 255, 0.6)) brightness(1.2); 
+      }
     }
 
     .subtitle {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.7);
       margin-top: 5px;
-      letter-spacing: 0.2px;
+      letter-spacing: 0.5px;
       display: inline-block;
-      padding: 3px 12px;
-      border-radius: 12px;
-      background: rgba(234, 67, 53, 0.75);
-      border: 1px solid var(--google-yellow);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      padding: 2px 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      box-shadow: none;
     }
 
     .controls-bar {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: center;
       gap: 10px;
       margin-top: 12px;
-      padding: 0 15px;
+      padding: 0 15px 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .controls-bar::-webkit-scrollbar {
+      display: none;
     }
 
     .btn-group {
       display: flex;
-      background: rgba(0,0,0,0.5);
+      background: rgba(5, 12, 35, 0.75);
       border-radius: var(--radius-large);
       padding: 4px;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
 
     .btn {
       background: transparent;
-      color: #ccc;
+      color: #ddd;
       border: none;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: var(--radius-large);
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: all 0.2s ease;
     }
 
-    .btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .btn:hover { background: rgba(255,255,255,0.15); color: #fff; transform: translateY(-1px); }
     .btn.active {
-      background: var(--google-blue);
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
       color: #fff;
-      box-shadow: 0 0 10px var(--google-blue);
+      box-shadow: 0 0 15px rgba(0, 198, 255, 0.7);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
     }
 
     .gallery-container {
@@ -224,7 +268,7 @@
       background: #0d1b3d;
     }
 
-    .gallery-container:not(.masonry-mode) .media-item { aspect-ratio: 1 / 1; }
+    .gallery-container:not(.masonry-mode) .media-item { aspect-ratio: 16 / 9; }
     .gallery-container.masonry-mode .media-item { aspect-ratio: auto; }
 
     .video-icon {
@@ -339,7 +383,11 @@
 <body>
 
   <div class="bg-spotlights">
-    <div class="spotlight"></div><div class="spotlight"></div><div class="spotlight"></div>
+    <!-- 4 זרקורים המכוונים מטה אל עבר התמונות -->
+    <div class="spotlight"></div>
+    <div class="spotlight"></div>
+    <div class="spotlight"></div>
+    <div class="spotlight"></div>
   </div>
 
   <header id="main-header">
@@ -359,18 +407,18 @@
         <button class="btn" onclick="setFilter('videos', this)">סרטונים</button>
       </div>
       <div class="btn-group">
-        <button class="btn active" onclick="setSize('small', this)">קטן</button>
-        <button class="btn" onclick="setSize('medium', this)">בינוני</button>
+        <button class="btn" onclick="setSize('small', this)">קטן</button>
+        <button class="btn active" onclick="setSize('medium', this)">בינוני</button>
         <button class="btn" onclick="setSize('large', this)">גדול</button>
       </div>
       <div class="btn-group">
-        <button class="btn" onclick="setLayout('grid', this)">ריבועים קבועים</button>
-        <button class="btn active" onclick="setLayout('masonry', this)">תפזורת מלאה</button>
+        <button class="btn active" onclick="setLayout('grid', this)">ריבועים קבועים</button>
+        <button class="btn" onclick="setLayout('masonry', this)">תפזורת מלאה</button>
       </div>
     </div>
   </header>
 
-  <main id="gallery" class="gallery-container masonry-mode" data-size="small"></main>
+  <main id="gallery" class="gallery-container" data-size="medium"></main>
 
   <div id="scroll-sentinel"></div>
 
@@ -391,14 +439,12 @@
     /* צביעת אותיות הכותרת */
     (function colorizeTitle() {
       const el = document.getElementById('main-title');
-      const palette = ['#EA4335', '#4285F4', '#FBBC05', '#34A853', '#e6007e', '#f7941d', '#00a99d', '#ff6f91'];
+      const palette = ['#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', '#007AFF', '#5856D6', '#FF2D55', '#00FFCC'];
       const text = el.textContent;
-      let i = 0;
-      el.innerHTML = text.split('').map(ch => {
-        if (ch === ' ') return ' ';
-        const color = palette[i % palette.length];
-        i++;
-        return `<span style="color:${color}">${ch}</span>`;
+      el.innerHTML = text.split('').map((ch, index) => {
+        if (ch === ' ') return '&nbsp;';
+        const color = palette[index % palette.length];
+        return `<span style="color:${color}; animation-delay: ${index * 0.05}s">${ch}</span>`;
       }).join('');
     })();
 
@@ -422,6 +468,20 @@
     const sentinel = document.getElementById('scroll-sentinel');
     let isRendering = false;
 
+    const mediaObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          if (el.dataset.src) {
+            el.src = el.dataset.src;
+            el.removeAttribute('data-src');
+            if (el.tagName === 'VIDEO') el.load();
+          }
+          observer.unobserve(el);
+        }
+      });
+    }, { rootMargin: '300px' });
+
     async function fetchFromGitHub() {
       try {
         const repoUrl = 'https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/main?recursive=1';
@@ -436,14 +496,14 @@
         if (!data.tree) return;
 
         allMedia = data.tree
-          .filter(f => f.type === 'blob' && f.path.match(/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov)$/i))
+          .filter(f => f.type === 'blob' && f.path.match(/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov|m4v|ogg|avi|mkv)$/i))
           .map(f => {
             const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${f.path}`;
-            const isVideo = !!f.path.match(/\.(mp4|webm|mov)$/i);
+            const isVideo = !!f.path.match(/\.(mp4|webm|mov|m4v|ogg|avi|mkv)$/i);
             
             let thumbUrl = isVideo 
-              ? `${rawUrl}#t=0.1` 
-              : `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=320&q=60`;
+              ? `${rawUrl}#t=0.001` 
+              : `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=600&q=80`;
               
             return { url: rawUrl, isVideo, thumb: thumbUrl };
           });
@@ -475,16 +535,23 @@
 
         if (item.isVideo) {
           const video = document.createElement('video');
-          video.src = item.thumb;
+          video.dataset.src = item.thumb;
           video.className = 'media-item';
           video.muted = true;
           video.loop = true;
-          video.preload = 'metadata';
+          video.preload = 'none';
+          video.playsInline = true;
+          video.crossOrigin = 'anonymous';
           
           let playPromise;
-          card.onmouseenter = () => { playPromise = video.play().catch(()=>{}); };
+          card.onmouseenter = () => { 
+            if(!video.src) video.src = item.thumb;
+            playPromise = video.play().catch(()=>{}); 
+          };
           card.onmouseleave = () => { if(playPromise) playPromise.then(()=>video.pause()).catch(()=>{}); };
           card.appendChild(video);
+          
+          mediaObserver.observe(video);
           
           const icon = document.createElement('div');
           icon.className = 'video-icon';
@@ -493,10 +560,11 @@
         } else {
           const img = document.createElement('img');
           img.className = 'media-item';
-          img.loading = 'lazy';
-          img.src = item.thumb;
+          img.dataset.src = item.thumb;
           img.onerror = () => { img.src = item.url; };
           card.appendChild(img);
+          
+          mediaObserver.observe(img);
         }
         
         fragment.appendChild(card);
@@ -589,6 +657,8 @@
         elem.controls = false;
         elem.autoplay = true;
         elem.loop = true;
+        elem.playsInline = true;
+        elem.crossOrigin = 'anonymous';
         elem.id = 'lightbox-content';
         
         elem.oncanplay = () => loader.style.display = 'none';
