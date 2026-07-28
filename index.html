@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #070b19;
+      --bg-dark: #0a1128;
       --bg-panel: rgba(10, 19, 43, 0.8);
       --radius-large: 20px;
       --radius-medium: 12px;
@@ -17,7 +17,10 @@
       --google-green: #34A853;
     }
 
-    * { box-sizing: border-box; }
+    * { 
+      box-sizing: border-box; 
+      cursor: url('https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=20&h=20&fit=cover&mask=circle') 10 10, auto !important;
+    }
 
     body {
       margin: 0;
@@ -28,8 +31,6 @@
       min-height: 100vh;
       user-select: none;
       -webkit-user-drag: none;
-      /* סמן עכבר צבעוני */
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" fill="%2300ffcc" opacity="0.6"/><circle cx="16" cy="16" r="5" fill="%23ff00cc" /></svg>') 16 16, auto;
     }
 
     .bg-spotlights {
@@ -38,7 +39,7 @@
       z-index: -1;
       overflow: hidden;
       pointer-events: none;
-      background: radial-gradient(circle at 50% 50%, #0a142c 0%, #03060f 100%);
+      background: radial-gradient(circle at 50% 50%, #0c1a3b 0%, #050a14 100%);
     }
 
     .spotlight {
@@ -72,40 +73,42 @@
     }
     header.hidden { transform: translateY(-100%); }
 
-    .top-header-row {
+    .header-top-row {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 3vw;
-      margin-bottom: 6px;
       gap: 20px;
+      margin-bottom: 5px;
     }
 
-    /* לוגו מוגדל עם שוליים מתפזרות (ללא מסגרת) */
-    .logo-img {
-      max-height: 110px;
-      width: auto;
-      border: none;
-      -webkit-mask-image: radial-gradient(ellipse, black 50%, rgba(0,0,0,0) 75%);
-      mask-image: radial-gradient(ellipse, black 50%, rgba(0,0,0,0) 75%);
-      filter: drop-shadow(0 0 15px rgba(0, 255, 204, 0.5));
+    .header-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      -webkit-mask-image: radial-gradient(circle, black 50%, transparent 100%);
+      mask-image: radial-gradient(circle, black 50%, transparent 100%);
+      filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.6));
       animation: pulseGlow 3s infinite alternate;
     }
 
     @keyframes pulseGlow {
-      0% { filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.3)); transform: scale(1); }
-      100% { filter: drop-shadow(0 0 25px rgba(255, 0, 204, 0.6)); transform: scale(1.05); }
+      from { filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.5)); }
+      to { filter: drop-shadow(0 0 20px rgba(255, 0, 204, 0.8)); }
     }
 
     h1 {
       font-family: 'Heebo', sans-serif;
       font-weight: 900;
-      font-size: clamp(1.8rem, 6vw, 3.5rem);
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
       margin: 0;
       line-height: 1.1;
       letter-spacing: 1px;
       text-shadow:
-        -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff,
+        -1.5px -1.5px 0 #fff,
+        1.5px -1.5px 0 #fff,
+        -1.5px 1.5px 0 #fff,
+        1.5px 1.5px 0 #fff,
         0 6px 12px rgba(0,0,0,0.7);
     }
 
@@ -115,11 +118,12 @@
       color: #fff;
       margin-top: 5px;
       letter-spacing: 0.2px;
-      opacity: 0.9;
       display: inline-block;
-      padding: 2px 10px;
-      border-radius: 8px;
-      background: rgba(234, 67, 53, 0.55);
+      padding: 3px 12px;
+      border-radius: 12px;
+      background: rgba(234, 67, 53, 0.75);
+      border: 1px solid var(--google-yellow);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
 
     .controls-bar {
@@ -148,12 +152,10 @@
       font-family: inherit;
       font-size: 0.9rem;
       font-weight: 700;
-      cursor: pointer;
       transition: background 0.15s ease, color 0.15s ease;
     }
 
     .btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-
     .btn.active {
       background: var(--google-blue);
       color: #fff;
@@ -186,7 +188,6 @@
       width: 100%;
     }
 
-    /* כרטיס המדיה - יציב עם זום עדין בלבד */
     .media-card {
       position: relative;
       background: var(--bg-panel);
@@ -194,39 +195,38 @@
       overflow: hidden;
       border: 2px solid #1a2c5b;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      opacity: 0;
+      animation: popIn 0.5s ease-out forwards;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       transform-origin: center center;
       z-index: 1;
-      cursor: pointer;
       will-change: transform;
       backface-visibility: hidden;
     }
 
     .media-card:hover {
-      transform: scale(1.03) !important;
+      transform: scale(1.03);
       border-color: var(--google-yellow);
       box-shadow: 0 8px 18px rgba(0,0,0,0.7), 0 0 10px rgba(253, 185, 19, 0.35);
       z-index: 10;
     }
 
-    /* התמונות מתחילות שקופות ונכנסות ב-Fade-in יפה כשהן נטענות */
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .media-item {
       width: 100%;
       height: auto;
       display: block;
       object-fit: cover;
       background: #0d1b3d;
-      opacity: 0; 
-      transition: opacity 0.5s ease;
-    }
-    .media-item.loaded {
-      opacity: 1;
     }
 
     .gallery-container:not(.masonry-mode) .media-item { aspect-ratio: 1 / 1; }
     .gallery-container.masonry-mode .media-item { aspect-ratio: auto; }
 
-    /* אייקון וידאו לתצוגה מקדימה */
     .video-icon {
       position: absolute;
       top: 50%; left: 50%;
@@ -240,11 +240,7 @@
     }
     .media-card:hover .video-icon { opacity: 0; }
 
-    .glass-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 5;
-    }
+    #scroll-sentinel { width: 100%; height: 1px; }
 
     #lightbox {
       position: fixed;
@@ -260,25 +256,27 @@
       transition: opacity 0.3s ease;
     }
     #lightbox.active { opacity: 1; pointer-events: auto; }
-    
-    #lightbox-content, #lightbox-content-old {
-      position: absolute;
+
+    #lightbox-media-container {
+      position: relative;
+      width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    #lightbox-content {
       max-width: 90vw;
       max-height: 90vh;
       border-radius: var(--radius-large);
       box-shadow: 0 0 40px rgba(0, 255, 200, 0.3);
       border: 2px solid rgba(255,255,255,0.1);
-      object-fit: contain;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
     }
-    #lightbox-content-old { pointer-events: none; }
 
     .close-btn {
       position: absolute;
       top: 20px; right: 20px;
       color: #fff;
       font-size: 2rem;
-      cursor: pointer;
       z-index: 10000;
       background: rgba(255,255,255,0.1);
       border-radius: 50%;
@@ -288,47 +286,54 @@
     }
     .close-btn:hover { background: var(--google-red); transform: scale(1.1); }
 
-    /* כפתורי חיצים לדפדוף */
     .nav-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       color: #fff;
-      font-size: 2.5rem;
-      cursor: pointer;
+      font-size: 3rem;
       z-index: 10000;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 50%;
       width: 60px; height: 60px;
       display: flex; justify-content: center; align-items: center;
       transition: all 0.2s;
-      user-select: none;
     }
-    .nav-btn:hover { background: var(--google-blue); transform: translateY(-50%) scale(1.1); box-shadow: 0 0 15px var(--google-blue); }
-    .nav-btn.prev-btn { right: 20px; } /* עברית: קודם זה ימינה */
-    .nav-btn.next-btn { left: 20px; }
+    .nav-btn:hover { background: var(--google-blue); box-shadow: 0 0 20px var(--google-blue); }
+    .prev-btn { right: 20px; }
+    .next-btn { left: 20px; }
 
-    /* אינדיקטור טעינה */
-    .loading-indicator {
-      display: none; align-items: center; justify-content: center;
-      gap: 10px; font-size: 1.1rem; font-weight: 700;
-      padding: 30px 10px 40px; width: 100%;
+    #lightbox-loader {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px; height: 60px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top-color: var(--google-yellow);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+      z-index: 10001;
     }
-    .loading-indicator.visible { display: flex; }
-    .loading-spinner {
-      width: 20px; height: 20px; border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.15); border-top-color: var(--google-blue);
-      animation: spin 0.9s linear infinite;
+    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    #video-state-icon {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 0 20px rgba(0,0,0,0.8);
+      z-index: 10002;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-text { animation: blinkText 1.4s ease-in-out infinite; }
-    @keyframes blinkText {
-      0%, 100% { opacity: 0.5; color: var(--google-blue); }
-      33% { opacity: 1; color: var(--google-red); }
-      66% { opacity: 0.8; color: var(--google-yellow); }
+    #video-state-icon.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
     }
-    #scroll-sentinel { width: 100%; height: 1px; }
   </style>
 </head>
 <body>
@@ -338,16 +343,13 @@
   </div>
 
   <header id="main-header">
-    <div class="top-header-row">
-      <!-- לוגו ימני ושמאלי מוקטנים ומהירים -->
-      <img src="https://images.weserv.nl/?url=https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=150&q=70" class="logo-img" alt="" onerror="this.style.display='none'">
-      
+    <div class="header-top-row">
+      <img src="https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=150" class="header-logo" alt="לוגו">
       <div>
         <h1 id="main-title">קעמפ ביה״ז אב פ״ה באופקים</h1>
         <div class="subtitle">בנשיאות הגרא״ד האוסמן הי״ו</div>
       </div>
-
-      <img src="https://images.weserv.nl/?url=https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=150&q=70" class="logo-img" alt="" onerror="this.style.display='none'">
+      <img src="https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=150" class="header-logo" alt="לוגו">
     </div>
 
     <div class="controls-bar">
@@ -370,27 +372,23 @@
 
   <main id="gallery" class="gallery-container masonry-mode" data-size="small"></main>
 
-  <div id="loading-indicator" class="loading-indicator">
-    <div class="loading-spinner"></div>
-    <span class="loading-text">המערכת טוענת עוד תמונות וחומר...</span>
-  </div>
-
   <div id="scroll-sentinel"></div>
 
   <div id="lightbox">
     <div class="close-btn" onclick="closeLightbox()">✖</div>
-    <!-- חצים לדפדוף ימינה ושמאלה -->
     <div class="nav-btn prev-btn" onclick="navigateLightbox(-1)">❯</div>
     <div class="nav-btn next-btn" onclick="navigateLightbox(1)">❮</div>
     
-    <div id="lightbox-media-container" style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-        <div class="glass-overlay" style="z-index: 10; pointer-events: none;"></div>
-    </div>
+    <div id="lightbox-loader"></div>
+    <div id="video-state-icon"></div>
+    
+    <div id="lightbox-media-container"></div>
   </div>
 
   <script>
     document.addEventListener('contextmenu', e => e.preventDefault());
     
+    /* צביעת אותיות הכותרת */
     (function colorizeTitle() {
       const el = document.getElementById('main-title');
       const palette = ['#EA4335', '#4285F4', '#FBBC05', '#34A853', '#e6007e', '#f7941d', '#00a99d', '#ff6f91'];
@@ -404,6 +402,7 @@
       }).join('');
     })();
 
+    /* העלמת תפריט בגלילה למטה */
     let lastScroll = 0;
     const header = document.getElementById('main-header');
     window.addEventListener('scroll', () => {
@@ -416,84 +415,63 @@
     let allMedia = [];
     let filteredMedia = [];
     let currentBatchIndex = 0;
-    const BATCH_SIZE = 12; // טעינה רגועה וקלילה יותר למעבד
+    let currentLightboxIndex = -1;
+    const BATCH_SIZE = 24; 
 
     const galleryEl = document.getElementById('gallery');
-    const loadingIndicator = document.getElementById('loading-indicator');
     const sentinel = document.getElementById('scroll-sentinel');
-
     let isRendering = false;
-    let canLoadMore = false;
 
     async function fetchFromGitHub() {
-      loadingIndicator.classList.add('visible');
       try {
-        const repoApiUrl = 'https://api.github.com/repos/y3204044-art/camp05485300-gmail.com';
-        const repoRes = await fetch(repoApiUrl);
-        if (!repoRes.ok) throw new Error('Repo not found or Rate limit exceeded');
-        const repoData = await repoRes.json();
-        const defaultBranch = repoData.default_branch || 'main';
-
-        const treeUrl = `https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/${defaultBranch}?recursive=1`;
-        const res = await fetch(treeUrl);
-        const data = await res.json();
-
-        if (!data.tree) throw new Error('No files found');
+        const repoUrl = 'https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/main?recursive=1';
+        let res = await fetch(repoUrl);
+        let data = await res.json();
+        
+        if (!data.tree) {
+            res = await fetch('https://api.github.com/repos/y3204044-art/camp05485300-gmail.com/git/trees/master?recursive=1');
+            data = await res.json();
+        }
+        
+        if (!data.tree) return;
 
         allMedia = data.tree
           .filter(f => f.type === 'blob' && f.path.match(/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov)$/i))
           .map(f => {
-            const encodedPath = f.path.split('/').map(encodeURIComponent).join('/');
-            const rawUrl = `https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/${defaultBranch}/${encodedPath}`;
+            const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${f.path}`;
             const isVideo = !!f.path.match(/\.(mp4|webm|mov)$/i);
             
-            return {
-              url: rawUrl,
-              isVideo,
-              // חיבור לשרת מרוחק שמשדר תצוגה מקדימה מזערית בלבד (משקל אפסי) במקום להוריד את הקובץ
-              thumb: isVideo ? rawUrl + '#t=0.1' : `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=150&q=20&output=webp`
-            };
+            let thumbUrl = isVideo 
+              ? `${rawUrl}#t=0.1` 
+              : `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=320&q=60`;
+              
+            return { url: rawUrl, isVideo, thumb: thumbUrl };
           });
 
         allMedia.sort(() => Math.random() - 0.5);
         filteredMedia = [...allMedia];
-
+        
         galleryEl.innerHTML = '';
         currentBatchIndex = 0;
-        await renderBatch();
-        canLoadMore = true;
-        
-        forceFillScreen();
+        await checkAndLoadMore();
 
       } catch (err) {
-        loadingIndicator.querySelector('.loading-text').textContent = 'שגיאה: גיטהאב עמוס מדי. המתן דקה ורענן את הדף.';
-        loadingIndicator.querySelector('.loading-spinner').style.display = 'none';
+        console.error(err);
       }
     }
 
     async function renderBatch() {
-      if (isRendering) return;
-      if (currentBatchIndex >= filteredMedia.length) {
-        loadingIndicator.classList.remove('visible');
-        return;
-      }
-
+      if (isRendering || currentBatchIndex >= filteredMedia.length) return;
       isRendering = true;
-      loadingIndicator.classList.add('visible');
-
+      
       const fragment = document.createDocumentFragment();
       const end = Math.min(currentBatchIndex + BATCH_SIZE, filteredMedia.length);
-
+      
       for (let i = currentBatchIndex; i < end; i++) {
         const item = filteredMedia[i];
         const card = document.createElement('div');
         card.className = 'media-card';
-        
-        // מעבירים את האינדקס כדי שנוכל לדפדף
         card.onclick = () => openLightbox(i);
-
-        const overlay = document.createElement('div');
-        overlay.className = 'glass-overlay';
 
         if (item.isVideo) {
           const video = document.createElement('video');
@@ -502,19 +480,12 @@
           video.muted = true;
           video.loop = true;
           video.preload = 'metadata';
-
-          // פייד-אין ברגע שהוידאו מוכן
-          video.onloadeddata = () => video.classList.add('loaded');
-
+          
           let playPromise;
-          card.onmouseenter = () => { playPromise = video.play().catch(() => {}); };
-          card.onmouseleave = () => {
-            if (playPromise !== undefined) {
-              playPromise.then(() => { video.pause(); }).catch(() => {});
-            }
-          };
+          card.onmouseenter = () => { playPromise = video.play().catch(()=>{}); };
+          card.onmouseleave = () => { if(playPromise) playPromise.then(()=>video.pause()).catch(()=>{}); };
           card.appendChild(video);
-
+          
           const icon = document.createElement('div');
           icon.className = 'video-icon';
           icon.innerHTML = '▶';
@@ -523,76 +494,65 @@
           const img = document.createElement('img');
           img.className = 'media-item';
           img.loading = 'lazy';
-          
-          // פייד-אין ברגע שהתמונה יורדת
-          img.onload = () => img.classList.add('loaded');
           img.src = item.thumb;
-          
+          img.onerror = () => { img.src = item.url; };
           card.appendChild(img);
         }
-
-        card.appendChild(overlay);
+        
         fragment.appendChild(card);
       }
-
+      
       galleryEl.appendChild(fragment);
       currentBatchIndex = end;
-      
-      // משחרר את הנעילה מיד
       isRendering = false;
     }
 
-    async function forceFillScreen() {
-      if (isRendering || !canLoadMore || currentBatchIndex >= filteredMedia.length) return;
-      
+    async function checkAndLoadMore() {
+      if (isRendering || currentBatchIndex >= filteredMedia.length) return;
+
       const scrollBottom = window.innerHeight + window.scrollY;
-      const docHeight = document.body.offsetHeight;
+      const docHeight = document.documentElement.scrollHeight || document.documentElement.offsetHeight;
       
-      // אם אנחנו עדיין לא בתחתית העמוד, טען עוד קבוצה
-      if (scrollBottom >= docHeight - 300) {
+      if (docHeight - scrollBottom < 1200 || window.innerHeight >= docHeight) {
         await renderBatch();
-        setTimeout(forceFillScreen, 300); // רוגע של 300 מילישניות בין קבוצות
-      } else {
-        loadingIndicator.classList.remove('visible');
+        setTimeout(checkAndLoadMore, 100);
       }
     }
 
+    window.addEventListener('scroll', checkAndLoadMore, { passive: true });
+    window.addEventListener('resize', checkAndLoadMore, { passive: true });
+
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && canLoadMore && !isRendering) {
-          forceFillScreen();
-        }
-      });
-    }, { rootMargin: '800px 0px' });
+      if (entries[0].isIntersecting) checkAndLoadMore();
+    }, { rootMargin: '1000px 0px' });
     
     observer.observe(sentinel);
 
     function setSize(size, btn) {
       document.querySelector('.gallery-container').setAttribute('data-size', size);
       updateActiveBtn(btn);
+      checkAndLoadMore();
     }
-
+    
     function setLayout(layout, btn) {
       const gal = document.querySelector('.gallery-container');
       if (layout === 'masonry') gal.classList.add('masonry-mode');
       else gal.classList.remove('masonry-mode');
       updateActiveBtn(btn);
+      checkAndLoadMore();
     }
-
+    
     async function setFilter(type, btn) {
-      canLoadMore = false;
       if (type === 'all') filteredMedia = allMedia;
       else if (type === 'images') filteredMedia = allMedia.filter(m => !m.isVideo);
       else if (type === 'videos') filteredMedia = allMedia.filter(m => m.isVideo);
-
+      
       galleryEl.innerHTML = '';
       currentBatchIndex = 0;
       updateActiveBtn(btn);
-      await renderBatch();
-      canLoadMore = true;
-      forceFillScreen();
+      await checkAndLoadMore();
     }
-
+    
     function updateActiveBtn(btn) {
       Array.from(btn.parentElement.children).forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -600,19 +560,14 @@
 
     const lightbox = document.getElementById('lightbox');
     const lbContainer = document.getElementById('lightbox-media-container');
-    let currentLightboxIndex = -1;
 
     function openLightbox(index) {
       currentLightboxIndex = index;
-      renderLightboxContent(filteredMedia[index], 0);
       lightbox.classList.add('active');
+      renderLightboxContent(filteredMedia[currentLightboxIndex], 0);
     }
 
     function renderLightboxContent(item, direction) {
-      const loader = document.getElementById('lightbox-loader');
-      loader.classList.remove('active'); // איפוס הודעת הטעינה במעבר
-
-      // טיפול באלמנט הישן (החלקה החוצה)
       const oldContent = document.getElementById('lightbox-content');
       if (oldContent) {
         oldContent.id = 'lightbox-content-old';
@@ -621,55 +576,61 @@
         setTimeout(() => { if (oldContent.parentNode) oldContent.remove(); }, 300);
       }
 
+      const loader = document.getElementById('lightbox-loader');
+      const stateIcon = document.getElementById('video-state-icon');
+      
+      loader.style.display = 'block';
+      stateIcon.classList.remove('show');
+
       let elem;
       if (item.isVideo) {
         elem = document.createElement('video');
         elem.src = item.url;
-        elem.controls = false; // מסתיר את כפתורי המערכת כדי לשלוט דרך המסך
+        elem.controls = false;
         elem.autoplay = true;
         elem.loop = true;
         elem.id = 'lightbox-content';
         
-        // מציג הודעת טעינה עד שהוידאו באמת מוכן להתנגן
-        loader.classList.add('active');
-        elem.oncanplay = () => loader.classList.remove('active'); // ברגע שמוכן - נעלם
-        elem.onwaiting = () => loader.classList.add('active'); // אם נתקע באמצע והאינטרנט חושב - מופיע שוב
-        elem.onplaying = () => loader.classList.remove('active');
-
-        // עצירה/הפעלה של וידאו בקליק בעכבר
+        elem.oncanplay = () => loader.style.display = 'none';
+        elem.onplaying = () => loader.style.display = 'none';
+        elem.onwaiting = () => loader.style.display = 'block';
+        
         elem.onclick = (e) => {
           e.stopPropagation();
-          if (elem.paused) elem.play();
-          else elem.pause();
+          if (elem.paused) {
+            elem.play();
+            stateIcon.innerHTML = '▶';
+            stateIcon.classList.add('show');
+            setTimeout(() => stateIcon.classList.remove('show'), 600);
+          } else {
+            elem.pause();
+            stateIcon.innerHTML = '❚❚';
+            stateIcon.classList.add('show');
+          }
         };
       } else {
         elem = document.createElement('img');
+        elem.onload = () => loader.style.display = 'none';
         elem.src = item.url;
         elem.id = 'lightbox-content';
       }
 
-      // אנימציית החלקה פנימה בהתאם לכיוון
       elem.style.opacity = '0';
       elem.style.transform = direction > 0 ? 'translateX(100px)' : (direction < 0 ? 'translateX(-100px)' : 'scale(0.9)');
       
       lbContainer.insertBefore(elem, lbContainer.firstChild);
 
-      // כפיית חישוב מחדש כדי שהאנימציה תעבוד נקי
       void elem.offsetWidth;
 
       elem.style.opacity = '1';
       elem.style.transform = 'scale(1) translateX(0)';
     }
 
-    // פונקציית דפדוף (כיוון 1=קדימה, מינוס 1=אחורה)
     function navigateLightbox(dir) {
       if (currentLightboxIndex === -1) return;
       currentLightboxIndex += dir;
-      
-      // תנועה מעגלית
       if (currentLightboxIndex < 0) currentLightboxIndex = filteredMedia.length - 1;
       if (currentLightboxIndex >= filteredMedia.length) currentLightboxIndex = 0;
-      
       renderLightboxContent(filteredMedia[currentLightboxIndex], dir);
     }
 
@@ -685,25 +646,26 @@
       }, 300);
     }
 
-    // האזנה למקלדת: חיצים לדפדוף, רווח לווידאו, אסקייפ לסגירה
     document.addEventListener('keydown', (e) => {
-      // חסימת שמירה
-      if ((e.ctrlKey || e.metaKey) && ['s','u','i','p'].includes(e.key.toLowerCase())) e.preventDefault();
-      if (e.key === 'F12') e.preventDefault();
-
       if (lightbox.classList.contains('active')) {
-        if (e.key === 'ArrowLeft') {
-          navigateLightbox(1); // בעברית ימינה זה הבא, לכן שמאלה זה פלוס 1 לאינדקס
-        } else if (e.key === 'ArrowRight') {
-          navigateLightbox(-1);
-        } else if (e.key === 'Escape') {
-          closeLightbox();
-        } else if (e.code === 'Space') {
+        if (e.key === 'ArrowLeft') navigateLightbox(1);
+        else if (e.key === 'ArrowRight') navigateLightbox(-1);
+        else if (e.key === 'Escape') closeLightbox();
+        else if (e.code === 'Space') {
           e.preventDefault();
           const video = document.getElementById('lightbox-content');
+          const stateIcon = document.getElementById('video-state-icon');
           if (video && video.tagName === 'VIDEO') {
-            if (video.paused) video.play();
-            else video.pause();
+            if (video.paused) {
+              video.play();
+              stateIcon.innerHTML = '▶';
+              stateIcon.classList.add('show');
+              setTimeout(() => stateIcon.classList.remove('show'), 600);
+            } else {
+              video.pause();
+              stateIcon.innerHTML = '❚❚';
+              stateIcon.classList.add('show');
+            }
           }
         }
       }
