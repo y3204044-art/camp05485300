@@ -420,7 +420,6 @@
     const sentinel = document.getElementById('scroll-sentinel');
 
     let isRendering = false;
-    let canLoadMore = false; // נפתח רק אחרי שהטעינה הראשונה הסתיימה בהצלחה
 
     function delay(ms) { return new Promise(res => setTimeout(res, ms)); }
 
@@ -516,8 +515,9 @@
           return {
             url: rawUrl,
             isVideo,
-            // איכות נמוכה מאוד לתצוגה מקדימה - טעינה מהירה ויציבה יותר
-            thumb: isVideo ? rawUrl : `https://images.weserv.nl/?url=${encodeURIComponent(rawUrl)}&w=140&q=25`
+            // איכות נמוכה מאוד לתצוגה המקדימה בתפזורת - טעינה מהירה מאוד.
+            // האיכות המלאה (item.url המקורי) נטענת רק בלחיצה, כשפותחים את הליכטבוקס.
+            thumb: isVideo ? rawUrl : `https://images.weserv.nl/?url=${encodeURIComponent(rawUrl)}&w=90&q=15&output=webp`
           };
         });
 
@@ -527,7 +527,6 @@
         galleryEl.innerHTML = '';
         currentBatchIndex = 0;
         await renderBatch();
-        canLoadMore = true;
 
       } catch (err) {
         console.error('שגיאת סליקת מדיה:', err);
@@ -616,20 +615,31 @@
       // נשימה בין קבוצה לקבוצה - טעינה מכוונת, איטית ובטוחה
       await delay(PAUSE_BETWEEN_BATCHES);
       isRendering = false;
+
+      // אם המסך עדיין לא מלא (הסנטינל עדיין בטווח הנראות) - טוענים קבוצה נוספת מיד,
+      // בלי לחכות לאירוע גלילה חדש. זה מונע מהגלריה "להיתקע" אחרי קבוצה ראשונה בלבד.
+      maybeLoadMore();
     }
 
-    // טעינה נוספת דרך IntersectionObserver - יציב יותר מהאזנה לגלילה גולמית
+    function maybeLoadMore() {
+      if (isRendering || currentBatchIndex >= filteredMedia.length) return;
+      const rect = sentinel.getBoundingClientRect();
+      if (rect.top <= window.innerHeight + 800) {
+        renderBatch();
+      }
+    }
+
+    // טעינה נוספת בעת גלילה - IntersectionObserver יציב יותר מהאזנה לגלילה גולמית
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && canLoadMore && !isRendering) {
-          if (currentBatchIndex < filteredMedia.length) {
-            renderBatch();
-          }
-        }
+        if (entry.isIntersecting) maybeLoadMore();
       });
-    }, { rootMargin: '600px 0px' });
+    }, { rootMargin: '800px 0px' });
 
     observer.observe(sentinel);
+
+    // רשת ביטחון נוספת: בכל שינוי גודל חלון גם כן בודקים אם צריך לטעון עוד
+    window.addEventListener('resize', () => maybeLoadMore());
 
     function setSize(size, btn) {
       document.querySelector('.gallery-container').setAttribute('data-size', size);
@@ -644,7 +654,6 @@
     }
 
     async function setFilter(type, btn) {
-      canLoadMore = false;
       if (type === 'all') filteredMedia = allMedia;
       else if (type === 'images') filteredMedia = allMedia.filter(m => !m.isVideo);
       else if (type === 'videos') filteredMedia = allMedia.filter(m => m.isVideo);
@@ -653,7 +662,6 @@
       currentBatchIndex = 0;
       updateActiveBtn(btn);
       await renderBatch();
-      canLoadMore = true;
     }
 
     function updateActiveBtn(btn) {
