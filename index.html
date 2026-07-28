@@ -338,6 +338,80 @@
       pointer-events: auto;
     }
 
+    .video-cover-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 12;
+      background: linear-gradient(135deg, rgba(7, 13, 30, 0.5) 0%, rgba(12, 28, 66, 0.75) 100%), url('https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=800') center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      gap: 10px;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .video-cover-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .play-trigger-btn {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #fff;
+      box-shadow: 0 0 22px rgba(0, 240, 255, 0.8);
+      transition: transform 0.3s ease;
+      padding-left: 3px;
+    }
+
+    .video-cover-overlay:hover .play-trigger-btn {
+      transform: scale(1.15);
+    }
+
+    .play-trigger-text {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.65);
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+    }
+
+    .video-duration-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 15;
+      background: rgba(5, 12, 30, 0.88);
+      backdrop-filter: blur(8px);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(0, 240, 255, 0.5);
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 0 10px rgba(0, 240, 255, 0.3);
+      pointer-events: none;
+      direction: ltr;
+    }
+
     .gallery-container {
       display: grid;
       padding: 15px 20px 40px;
@@ -508,47 +582,7 @@
   <div class="featured-container" id="featured-section">
     <div class="featured-grid">
       
-      <!-- סרטון 1 -->
-      <div class="featured-card">
-        <div class="featured-header">
-          <div class="featured-header-title">
-            <span>🎬</span>
-            <span>תחרות הנואמים האגדית - סשן מלא</span>
-          </div>
-        </div>
-        <div class="featured-video-box">
-          <iframe src="https://drive.google.com/file/d/17Aq4sulPpnChSHYwkXDWQezZsHqjlmiJ/preview" allow="autoplay" allowfullscreen></iframe>
-          <div class="drive-guard"></div>
-        </div>
-        <div class="featured-footer">
-          <div class="header-actions">
-            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
-            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- סרטון 2 -->
-      <div class="featured-card">
-        <div class="featured-header">
-          <div class="featured-header-title">
-            <span>🎬</span>
-            <span>תוכנית הכל הולך של בויאר</span>
-          </div>
-        </div>
-        <div class="featured-video-box">
-          <iframe src="https://drive.google.com/file/d/1cdLPIiRvJSGJUvr0wZTCducA38dMpmlM/preview" allow="autoplay" allowfullscreen></iframe>
-          <div class="drive-guard"></div>
-        </div>
-        <div class="featured-footer">
-          <div class="header-actions">
-            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
-            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- סרטון 3 -->
+      <!-- סרטון 1 - מבט מלמעלה על הקעמפ -->
       <div class="featured-card">
         <div class="featured-header">
           <div class="featured-header-title">
@@ -557,6 +591,11 @@
           </div>
         </div>
         <div class="featured-video-box">
+          <div class="video-duration-badge">⏱️ 19:05</div>
+          <div class="video-cover-overlay" onclick="this.classList.add('hidden')">
+            <div class="play-trigger-btn">▶</div>
+            <span class="play-trigger-text">לחץ לצפייה בסרטון</span>
+          </div>
           <iframe src="https://drive.google.com/file/d/1-ntfgqyeP7OseNXIBbaEZmt_4cyQ7rUE/preview" allow="autoplay" allowfullscreen></iframe>
           <div class="drive-guard"></div>
         </div>
@@ -568,7 +607,28 @@
         </div>
       </div>
 
-      <!-- סרטון 4 -->
+      <!-- סרטון 2 - תחרות הנואמים האגדית -->
+      <div class="featured-card">
+        <div class="featured-header">
+          <div class="featured-header-title">
+            <span>🎬</span>
+            <span>תחרות הנואמים האגדית - סשן מלא</span>
+          </div>
+        </div>
+        <div class="featured-video-box">
+          <div class="video-duration-badge">⏱️ 3:20:22</div>
+          <iframe src="https://drive.google.com/file/d/17Aq4sulPpnChSHYwkXDWQezZsHqjlmiJ/preview" allow="autoplay" allowfullscreen></iframe>
+          <div class="drive-guard"></div>
+        </div>
+        <div class="featured-footer">
+          <div class="header-actions">
+            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
+            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- סרטון 3 - פאנל פוליטי מרתק -->
       <div class="featured-card">
         <div class="featured-header">
           <div class="featured-header-title">
@@ -577,7 +637,29 @@
           </div>
         </div>
         <div class="featured-video-box">
+          <div class="video-duration-badge">⏱️ 27:21</div>
           <iframe src="https://drive.google.com/file/d/1J6wKrk3ham-L9rwHBrNne-IX5ow8ht9k/preview" allow="autoplay" allowfullscreen></iframe>
+          <div class="drive-guard"></div>
+        </div>
+        <div class="featured-footer">
+          <div class="header-actions">
+            <button class="fullscreen-btn" onclick="toggleCardExpand(this)">🔍 הרחב</button>
+            <button class="fullscreen-btn" onclick="toggleCardFullscreen(this)">⛶ מסך מלא</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- סרטון 4 - תוכנית הכל הולך של אלעזר בויאר -->
+      <div class="featured-card">
+        <div class="featured-header">
+          <div class="featured-header-title">
+            <span>🎬</span>
+            <span>תוכנית הכל הולך של אלעזר בויאר ויוני שטיינהרטר</span>
+          </div>
+        </div>
+        <div class="featured-video-box">
+          <div class="video-duration-badge">⏱️ 17:42</div>
+          <iframe src="https://drive.google.com/file/d/1cdLPIiRvJSGJUvr0wZTCducA38dMpmlM/preview" allow="autoplay" allowfullscreen></iframe>
           <div class="drive-guard"></div>
         </div>
         <div class="featured-footer">
