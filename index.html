@@ -999,6 +999,7 @@
         elem.src = item.url;
         elem.controls = true;
         elem.autoplay = true;
+        elem.setAttribute("controlsList", "nodownload");
         elem.id = 'lightbox-content';
         elem.oncanplay = () => { if (loader) loader.style.display = 'none'; };
       } else {
