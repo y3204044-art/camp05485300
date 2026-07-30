@@ -723,6 +723,25 @@
       opacity: 0.2; 
     }
 
+    .video-duration-tag {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      color: var(--google-yellow);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      z-index: 10;
+      pointer-events: none;
+      direction: ltr;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
+
     .fancy-loader { 
       grid-column: 1 / -1; 
       display: flex; 
@@ -1446,7 +1465,7 @@
           video.className = 'media-item'; 
           video.muted = true; 
           video.loop = true; 
-          video.preload = 'none'; 
+          video.preload = 'metadata'; 
           
           let playPromise;
           card.onmouseenter = () => { playPromise = video.play().catch(()=>{}); };
@@ -1458,6 +1477,18 @@
           icon.className = 'video-icon'; 
           icon.innerHTML = '▶'; 
           card.appendChild(icon);
+
+          // מאזין למשיכת הנתונים כדי להציג את התגית החמודה עם אורך הסרטון
+          video.addEventListener('loadedmetadata', () => {
+             if (video.duration && !isNaN(video.duration) && video.duration !== Infinity) {
+                const durationDiv = document.createElement('div');
+                durationDiv.className = 'video-duration-tag';
+                const m = Math.floor(video.duration / 60);
+                const s = Math.floor(video.duration % 60).toString().padStart(2, '0');
+                durationDiv.innerText = `${m}:${s}`;
+                card.appendChild(durationDiv);
+             }
+          });
           
           lazyMediaObserver.observe(video);
         } else {
