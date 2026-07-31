@@ -15,9 +15,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;800;900&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG">
   
-  <!-- הוספת נגן הוידאו המתקדם והעמיד Plyr -->
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.min.js"></script>
+  <!-- הוספת נגן הוידאו המתקדם והעמיד Plyr דרך שרת אמין יותר -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.js"></script>
   
   <style>
     :root {
@@ -481,8 +481,25 @@
     .plyr {
       max-width: 90vw; max-height: 90dvh;
       border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.2);
       animation: popIn 0.3s cubic-bezier(0.25, 1, 0.25, 1);
+    }
+    
+    .plyr__control--overlaid {
+      background: rgba(0, 240, 255, 0.15) !important;
+      border: 2px solid var(--neon-cyan) !important;
+      color: var(--neon-cyan) !important;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6) !important;
+      transition: all 0.3s ease !important;
+    }
+    .plyr__control--overlaid:hover {
+      background: rgba(0, 240, 255, 0.35) !important;
+      transform: translate(-50%, -50%) scale(1.15) !important;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.9) !important;
+    }
+    .plyr--video .plyr__controls {
+      background: linear-gradient(rgba(0,0,0,0), rgba(7, 13, 30, 0.95)) !important;
+      padding-bottom: 25px !important;
     }
     
     @media (max-width: 768px) {
@@ -861,10 +878,12 @@
       if (mediaPaths.length === 0) return;
 
       allMedia = mediaPaths.map(path => {
-        const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${path}`;
+        // תיקון קריטי: קידוד נכון של שם הקובץ (מונע תקיעה של סרטונים עם עברית או רווחים בשם)
+        const encodedPath = path.split('/').map(encodeURIComponent).join('/');
         
-        // תיקון הקידוד: שימוש בשרת גיטהאב ישיר לוידאו שמאפשר Buffering וטעינה בחלקים
-        const rawVideoUrl = `https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/${path}`;
+        const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${encodedPath}`;
+        const rawVideoUrl = `https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/${encodedPath}`;
+        
         const isVideo = !!path.match(/\.(mp4|webm|mov|m4v|ogg)$/i);
         const urlToUse = isVideo ? rawVideoUrl : rawUrl;
         
@@ -1024,28 +1043,45 @@
         const vWrap = document.createElement('div');
         vWrap.className = 'custom-video-container loading';
         
-        // הטמעת הנגן החזק (Plyr) שיודע להתמודד עם כל סוגי הוידאו והקידודים בצורה אופטימלית
+        // חסימה מוחלטת של קליק ימני (הורדה) על המיכל
+        vWrap.oncontextmenu = (e) => { e.preventDefault(); return false; };
+        
+        // הוספנו preload="auto" ו-crossorigin="anonymous" לטעינה מהירה יותר ומניעת תקיעות רשת
         vWrap.innerHTML = `
-          <video id="plyr-player" playsinline controls>
+          <video id="plyr-player" playsinline controls controlsList="nodownload" preload="auto" crossorigin="anonymous" oncontextmenu="return false;">
             <source src="${item.url}" type="video/mp4" />
           </video>
         `;
         lbContainer.appendChild(vWrap);
         
-        const player = new Plyr('#plyr-player', {
-          controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'fullscreen'],
-          autoplay: true
-        });
+        // הגנת קריסה: בדיקה האם הנגן המשוכלל הצליח להיטען מהרשת
+        if (typeof Plyr !== 'undefined') {
+          const player = new Plyr('#plyr-player', {
+            controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'fullscreen'],
+            autoplay: true,
+            disableContextMenu: true, // חוסם את תפריט הקליק הימני של הוידאו
+            keyboard: { focused: true, global: true }
+          });
 
-        vWrap.plyrInstance = player;
-        
-        player.on('ready', () => { if (loader) loader.style.display = 'none'; vWrap.classList.remove('loading'); });
-        player.on('playing', () => { if (loader) loader.style.display = 'none'; });
-        player.on('waiting', () => { if (loader) loader.style.display = 'block'; });
-        player.on('error', () => { 
-          if (loader) loader.style.display = 'none';
-          console.warn("התרחשה שגיאה בטעינת הוידאו או בפיענוח הפורמט.");
-        });
+          vWrap.plyrInstance = player;
+          
+          // התיקון כאן: הספינר לא נעלם ב-ready (שהנגן מוכן), אלא רק ב-canplay (שהוידאו בפועל מוכן לנגן)!
+          player.on('ready', () => { vWrap.classList.remove('loading'); });
+          player.on('canplay', () => { if (loader) loader.style.display = 'none'; });
+          player.on('playing', () => { if (loader) loader.style.display = 'none'; });
+          player.on('waiting', () => { if (loader) loader.style.display = 'block'; });
+          player.on('error', () => { 
+            if (loader) loader.style.display = 'none';
+            console.warn("התרחשה שגיאה בטעינת הוידאו או בפיענוח הפורמט.");
+          });
+        } else {
+          // הפעלת נגן גיבוי אוטומטי אם הספריה לא נטענה
+          const fallbackVideo = vWrap.querySelector('video');
+          fallbackVideo.autoplay = true;
+          fallbackVideo.oncanplay = () => { if (loader) loader.style.display = 'none'; vWrap.classList.remove('loading'); fallbackVideo.play().catch(()=>{}); };
+          fallbackVideo.onwaiting = () => { if (loader) loader.style.display = 'block'; };
+          fallbackVideo.onplaying = () => { if (loader) loader.style.display = 'none'; };
+        }
         
       } else { 
         const elem = document.createElement('img'); 
