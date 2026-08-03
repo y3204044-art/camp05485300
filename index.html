@@ -15,7 +15,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;800;900&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG">
   
-  <!-- הוספת נגן הוידאו המתקדם והעמיד Plyr דרך שרת אמין יותר -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.js"></script>
   
@@ -35,7 +34,7 @@
 
     * { 
       box-sizing: border-box; 
-      cursor: url('https://wsrv.nl/?url=raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/logo.JPG&w=28&h=28&fit=cover&mask=circle') 14 14, auto !important;
+      /* סמן העכבר הוסר כבקשתך ומוגדר כברירת מחדל */
     }
 
     body {
@@ -46,7 +45,6 @@
     
     body.locked, body.no-scroll { overflow: hidden; }
 
-    /* Scroll Progress Bar */
     #scroll-progress {
       position: fixed;
       top: 0; left: 0;
@@ -58,7 +56,6 @@
       transition: width 0.1s ease-out;
     }
 
-    /* Back to Top Button */
     #back-to-top {
       position: fixed;
       bottom: 30px;
@@ -87,7 +84,6 @@
       box-shadow: 0 0 25px var(--neon-cyan);
     }
 
-    /* Click Ripple Effect */
     .ripple {
       position: absolute;
       border-radius: 50%;
@@ -110,14 +106,12 @@
       position: absolute;
       width: 3px; height: 3px;
       border-radius: 50%;
-      /* שינוי לאנימציה קצרה ועדינה יותר */
       animation: fwExplode 1.2s ease-out forwards;
     }
     
     @keyframes fwExplode { 
       0% { transform: scale(0.1); opacity: 1; } 
       50% { opacity: 1; }
-      /* הקטנת קנה המידה של הפיצוץ כדי שלא יגלוש למטה */
       100% { transform: scale(1.5) translateY(20px); opacity: 0; }
     }
 
@@ -303,7 +297,6 @@
     .controls-bar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; margin-top: 10px; }
     .btn-group { display: flex; background: rgba(0, 0, 0, 0.6); border-radius: var(--radius-large); padding: 4px; border: 1px solid rgba(255, 255, 255, 0.12); position: relative; }
     
-    /* Smooth transition for buttons */
     .btn { position: relative; z-index: 1; background: transparent; color: #ccc; border: none; padding: 6px 14px; border-radius: var(--radius-large); font-family: inherit; font-size: 0.85rem; font-weight: 700; transition: color 0.3s ease, background 0.3s ease; }
     .btn:hover { color: #fff; background: rgba(255, 255, 255, 0.15); }
     .btn.active { color: #fff; background: linear-gradient(135deg, var(--google-blue), #00d2ff); box-shadow: 0 0 12px rgba(0, 210, 255, 0.6); }
@@ -325,7 +318,6 @@
     .featured-card:hover { border-color: var(--google-yellow); box-shadow: 0 0 25px rgba(251, 188, 5, 0.6), 0 8px 25px rgba(0,0,0,0.9); transform: translateY(-2px); }
     .featured-card.expanded { grid-column: 1 / -1; max-width: 1000px; margin: 0 auto; width: 100%; }
 
-    /* תיקוני מסך מלא אמיתי לוידאו של דרייב */
     .featured-card:fullscreen, .featured-card:-webkit-full-screen, .featured-card.css-fullscreen {
       position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important;
       max-width: none !important; border-radius: 0 !important; border: none !important; background: #000 !important;
@@ -384,7 +376,6 @@
 
     .gallery-container.masonry-mode .media-card { margin-bottom: 12px; break-inside: avoid; display: inline-block; width: 100%; }
 
-    /* Enhanced 3D Hover & Shine for Media Cards */
     .media-card {
       position: relative; background: linear-gradient(45deg, #0a1532, #16244d); border-radius: 12px; overflow: hidden;
       border: 2px solid #1c2d5a; box-shadow: 0 4px 14px rgba(0,0,0,0.5);
@@ -473,7 +464,6 @@
       width: 100%; height: 100%;
     }
     
-    /* עיצוב נגן הוידאו החדש Plyr שיתאים לצבעי האתר */
     :root {
       --plyr-color-main: var(--neon-cyan);
       --plyr-video-background: transparent;
@@ -516,7 +506,6 @@
     }
     #scroll-sentinel { width: 100%; height: 1px; }
 
-    /* --- עיצוב המצגת האוטומטית --- */
     .slideshow-btn {
        background: rgba(251, 188, 5, 0.1); border: 1px solid var(--google-yellow); color: var(--google-yellow); padding: 6px 14px; border-radius: var(--radius-large); font-family: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
     }
@@ -539,12 +528,10 @@
     }
     #slideshow-img.show { opacity: 1; transform: scale(1.05); }
   </style>
-  <!-- Load tsParticles for background effect -->
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 </head>
 <body class="locked">
 
-  <!-- Scroll Progress Indicator -->
   <div id="scroll-progress"></div>
 
   <div id="login-gate">
@@ -587,7 +574,6 @@
     <div class="bg-spotlights">
       <div class="light-beam"></div><div class="light-beam"></div><div class="light-beam"></div>
     </div>
-    <!-- Particles container -->
     <div id="particles-js"></div>
 
     <header id="main-header">
@@ -604,7 +590,6 @@
           <button class="btn interactable" onclick="setFilter('videos', this)">סרטונים</button>
         </div>
         
-        <!-- Media Stats -->
         <span class="stats-badge" id="media-stats">טוען נתונים...</span>
 
         <div class="btn-group">
@@ -662,7 +647,6 @@
     <div id="scroll-sentinel"></div>
   </div>
 
-  <!-- Back to top button -->
   <div id="back-to-top" class="interactable" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
   </div>
@@ -678,13 +662,11 @@
     <div id="lightbox-media-container"></div>
   </div>
 
-  <!-- רקע ומכלול המצגת האוטומטית -->
   <div id="slideshow-overlay">
     <div class="close-btn interactable" onclick="stopSlideshow(event)" style="z-index: 2000001;">
       <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
     </div>
     <img id="slideshow-img" src="" alt="Slideshow Image">
-    <!-- מוזיקת הרקע נמשכת כעת ישירות מקובץ הוידאו/שמע שהועלה לגיטהאב -->
     <audio id="slideshow-audio" src="https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/741b9b95-a1e6-4dca-af27-be8248308207.mp4" loop preload="auto"></audio>
   </div>
 
@@ -694,7 +676,6 @@
 
     document.addEventListener('contextmenu', e => e.preventDefault());
 
-    // Ripple Effect Logic
     document.addEventListener('click', function(e) {
       if(document.body.classList.contains('locked')) return;
       const ripple = document.createElement('div');
@@ -707,7 +688,6 @@
       setTimeout(() => ripple.remove(), 600);
     });
 
-    // Scroll Progress & Back to Top
     window.addEventListener('scroll', () => {
       const scrollPx = document.documentElement.scrollTop;
       const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -731,7 +711,7 @@
         setTimeout(() => { 
           gate.style.display = 'none'; 
           initParticles(); 
-          if(typeof updateStats === 'function') updateStats(); // הפעלת הספירה מחדש כשהמסך נגלל
+          if(typeof updateStats === 'function') updateStats(); 
         }, 1000);
       } else {
         const box = document.querySelector('.login-box');
@@ -764,21 +744,19 @@
       const fw = document.createElement('div');
       fw.className = 'firework';
       
-      // מיקום מוגבל למעלה בצדדים ליד הלוגואים (לא מפריע לגלריה)
       const isLeft = Math.random() > 0.5;
       fw.style.left = isLeft ? (Math.random() * 8 + 5) + '%' : (Math.random() * 8 + 87) + '%';
-      fw.style.top = (Math.random() * 6 + 2) + '%'; // רק בין 2% ל-8% מלמעלה
+      fw.style.top = (Math.random() * 6 + 2) + '%'; 
       
-      // צבעי חג מולד / סילבסטר יוקרתיים
       const colors = ['#FFD700', '#FF003F', '#00FF7F', '#FFFFFF', '#E0E0E0', '#00F0FF'];
       const baseColor = colors[Math.floor(Math.random() * colors.length)];
       const mixColors = Math.random() > 0.4; 
       
       let shadow = '';
-      const particlesCount = 45; // פחות חלקיקים כדי לשמור על עידון
+      const particlesCount = 45; 
       for(let i = 0; i < particlesCount; i++) {
         const angle = (i / particlesCount) * Math.PI * 2 + (Math.random() * 0.3);
-        const velocity = 10 + Math.random() * 35; // מרחק פיזור מוקטן
+        const velocity = 10 + Math.random() * 35; 
         const c = mixColors ? colors[Math.floor(Math.random() * colors.length)] : baseColor;
         const x = Math.cos(angle) * velocity;
         const y = Math.sin(angle) * velocity;
@@ -790,7 +768,7 @@
       
       fw.style.boxShadow = shadow;
       layer.appendChild(fw);
-      setTimeout(() => fw.remove(), 1200); // תואם לאנימציה הקצרה ב-CSS
+      setTimeout(() => fw.remove(), 1200);
     }
     setInterval(shootPartyFirework, 8000); 
 
@@ -818,7 +796,6 @@
          const fsBtns = Array.from(c.querySelectorAll('.fullscreen-btn'));
          const btn = fsBtns.find(b => b.textContent.includes('מסך מלא') || b.textContent.includes('צא'));
          if (btn) {
-             // מעדכן את מצב הכפתור גם אם המסך המלא הופעל דרך הכפתור של גוגל דרייב עצמו!
              if (isFullscreen && (document.fullscreenElement === c || c.contains(document.fullscreenElement))) {
                  btn.textContent = '✖ צא';
              } else {
@@ -870,7 +847,6 @@
         } catch (err) {}
       }
 
-      // סינון הקבצים תוך התעלמות מוחלטת מקובץ המוזיקה של המצגת כדי שלא יופיע בגלריה
       const mediaPaths = filePaths.filter(path => 
         path.match(/\.(jpg|jpeg|png|webp|mp4|webm|mov|m4v|ogg)$/i) && 
         path !== '741b9b95-a1e6-4dca-af27-be8248308207.mp4'
@@ -878,17 +854,20 @@
       if (mediaPaths.length === 0) return;
 
       allMedia = mediaPaths.map(path => {
-        // תיקון קריטי: קידוד נכון של שם הקובץ (מונע תקיעה של סרטונים עם עברית או רווחים בשם)
         const encodedPath = path.split('/').map(encodeURIComponent).join('/');
-        
-        const rawUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${encodedPath}`;
-        const rawVideoUrl = `https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/${encodedPath}`;
-        
         const isVideo = !!path.match(/\.(mp4|webm|mov|m4v|ogg)$/i);
-        const urlToUse = isVideo ? rawVideoUrl : rawUrl;
         
-        const thumbUrl = isVideo ? urlToUse : `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=400&q=60&output=webp`;
-        return { url: urlToUse, isVideo, thumb: thumbUrl, id: path };
+        // התיקון הסופי לבעיית המסך השחור: סרטונים מעל 20MB חייבים לרוץ דרך Github Raw המקורי.
+        // תמונות לעומת זאת, יכולות (וצריכות) לרוץ דרך שרת ה-CDN המהיר כדי להפוך ל-WebP.
+        const rawVideoUrl = `https://raw.githubusercontent.com/y3204044-art/camp05485300-gmail.com/main/${encodedPath}`;
+        const imgCdnUrl = `https://cdn.jsdelivr.net/gh/y3204044-art/camp05485300-gmail.com@main/${encodedPath}`;
+        
+        const finalUrl = isVideo ? rawVideoUrl : imgCdnUrl;
+        
+        // טריק הפריים: טעינת 0.001 שניות מהוידאו לגלריה. ולתמונות: המרה ל-WebP.
+        const thumbUrl = isVideo ? `${rawVideoUrl}#t=0.001` : `https://wsrv.nl/?url=${encodeURIComponent(imgCdnUrl)}&w=400&q=60&output=webp`;
+        
+        return { url: finalUrl, isVideo, thumb: thumbUrl, id: path };
       });
       
       allMedia.sort(() => Math.random() - 0.5); filteredMedia = [...allMedia];
@@ -902,17 +881,15 @@
       const targetVidCount = allMedia.filter(m => m.isVideo).length;
       const statsEl = document.getElementById('media-stats');
       
-      // עצירת אנימציה קודמת אם היא רצה (במקרה של טעינה כפולה)
       if (statsAnimationId) cancelAnimationFrame(statsAnimationId);
       
       let startTimestamp = null;
-      const duration = 3000; // משך האנימציה - 3 שניות לקבלת אפקט מרשים
+      const duration = 3000; 
       
       const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         
-        // פונקציית מתמטית (Ease Out Cubic) להאטה הדרגתית ויפה בסוף הריצה
         const easeOutCubic = 1 - Math.pow(1 - progress, 3);
         
         const currentImg = Math.floor(easeOutCubic * targetImgCount);
@@ -942,7 +919,6 @@
         card.className = 'media-card interactable';
         card.onclick = () => openLightbox(i);
         
-        // 3D Tilt Logic
         let tiltTimeout;
         card.addEventListener('mousemove', (e) => {
            if(tiltTimeout) return;
@@ -952,7 +928,7 @@
              const y = e.clientY - rect.top;
              const centerX = rect.width / 2;
              const centerY = rect.height / 2;
-             const rotateX = ((y - centerY) / centerY) * -3; // Max tilt 3deg (gentle)
+             const rotateX = ((y - centerY) / centerY) * -3; 
              const rotateY = ((x - centerX) / centerX) * 3;
              card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`;
              tiltTimeout = null;
@@ -965,9 +941,10 @@
 
         if (item.isVideo) {
           const video = document.createElement('video');
-          video.dataset.src = item.url; video.className = 'media-item'; 
+          video.dataset.src = item.thumb; video.className = 'media-item'; 
           video.muted = true; video.loop = true; 
-          video.preload = 'metadata'; 
+          video.preload = 'metadata'; // מושך רק את הפריים הראשון
+          video.setAttribute('playsinline', '');
           video.setAttribute('decoding', 'async');
           
           video.addEventListener('loadedmetadata', function() {
@@ -1043,50 +1020,56 @@
         const vWrap = document.createElement('div');
         vWrap.className = 'custom-video-container loading';
         
-        // חסימה מוחלטת של קליק ימני (הורדה) על המיכל
         vWrap.oncontextmenu = (e) => { e.preventDefault(); return false; };
         
-        // הוספנו preload="auto" ו-crossorigin="anonymous" לטעינה מהירה יותר ומניעת תקיעות רשת
+        // הוידאו מוזרם מהשרת המקורי עכשיו בלי חסימות CrossOrigin
         vWrap.innerHTML = `
-          <video id="plyr-player" playsinline controls controlsList="nodownload" preload="auto" crossorigin="anonymous" oncontextmenu="return false;">
+          <video id="plyr-player" playsinline controls controlsList="nodownload" autoplay oncontextmenu="return false;">
             <source src="${item.url}" type="video/mp4" />
           </video>
         `;
         lbContainer.appendChild(vWrap);
         
-        // הגנת קריסה: בדיקה האם הנגן המשוכלל הצליח להיטען מהרשת
-        if (typeof Plyr !== 'undefined') {
-          const player = new Plyr('#plyr-player', {
-            controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'fullscreen'],
-            autoplay: true,
-            disableContextMenu: true, // חוסם את תפריט הקליק הימני של הוידאו
-            keyboard: { focused: true, global: true }
-          });
-
-          vWrap.plyrInstance = player;
-          
-          // התיקון כאן: הספינר לא נעלם ב-ready (שהנגן מוכן), אלא רק ב-canplay (שהוידאו בפועל מוכן לנגן)!
-          player.on('ready', () => { vWrap.classList.remove('loading'); });
-          player.on('canplay', () => { if (loader) loader.style.display = 'none'; });
-          player.on('playing', () => { if (loader) loader.style.display = 'none'; });
-          player.on('waiting', () => { if (loader) loader.style.display = 'block'; });
-          player.on('error', () => { 
-            if (loader) loader.style.display = 'none';
-            console.warn("התרחשה שגיאה בטעינת הוידאו או בפיענוח הפורמט.");
-          });
-        } else {
-          // הפעלת נגן גיבוי אוטומטי אם הספריה לא נטענה
+        const initFallbackPlayer = () => {
           const fallbackVideo = vWrap.querySelector('video');
           fallbackVideo.autoplay = true;
           fallbackVideo.oncanplay = () => { if (loader) loader.style.display = 'none'; vWrap.classList.remove('loading'); fallbackVideo.play().catch(()=>{}); };
           fallbackVideo.onwaiting = () => { if (loader) loader.style.display = 'block'; };
           fallbackVideo.onplaying = () => { if (loader) loader.style.display = 'none'; };
+        };
+
+        if (typeof Plyr !== 'undefined') {
+          try {
+            const player = new Plyr('#plyr-player', {
+              controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'fullscreen'],
+              autoplay: true,
+              disableContextMenu: true, 
+              keyboard: { focused: true, global: true },
+              iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.svg'
+            });
+
+            vWrap.plyrInstance = player;
+            
+            player.on('ready', () => { vWrap.classList.remove('loading'); });
+            player.on('canplay', () => { if (loader) loader.style.display = 'none'; });
+            player.on('playing', () => { if (loader) loader.style.display = 'none'; });
+            player.on('waiting', () => { if (loader) loader.style.display = 'block'; });
+            player.on('error', () => { 
+              if (loader) loader.style.display = 'none';
+              console.warn("התרחשה שגיאה בנגן Plyr, עובר לנגן גיבוי.");
+              initFallbackPlayer();
+            });
+          } catch (e) {
+            initFallbackPlayer();
+          }
+        } else {
+          initFallbackPlayer();
         }
         
       } else { 
         const elem = document.createElement('img'); 
         elem.onload = () => { if (loader) loader.style.display = 'none'; }; 
-        elem.src = item.url; 
+        elem.src = `https://wsrv.nl/?url=${encodeURIComponent(item.url)}&w=1600&q=80&output=webp`; 
         elem.id = 'lightbox-content'; 
         elem.oncontextmenu = () => false;
         elem.ondragstart = () => false;
@@ -1109,7 +1092,6 @@
       document.body.classList.remove('no-scroll');
       currentLightboxIndex = -1; 
       
-      // עצירה והשמדה בטוחה של נגן הוידאו החדש
       const vWrap = lbContainer.querySelector('.custom-video-container');
       if (vWrap && vWrap.plyrInstance) { 
         vWrap.plyrInstance.destroy(); 
@@ -1138,17 +1120,14 @@
       if (touchEndX > touchStartX + 50) navigateLightbox(-1);
     }, {passive: true});
 
-    // --- מערכת המצגת האוטומטית ---
     let slideshowInterval = null;
     let slideshowImages = [];
     let slideshowCurrentIdx = 0;
 
     function startSlideshow() {
-      // 1. קח רק תמונות
       slideshowImages = allMedia.filter(m => !m.isVideo);
       if (slideshowImages.length === 0) return;
       
-      // 2. עירבוב רנדומלי לחלוטין (Fisher-Yates)
       for (let i = slideshowImages.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [slideshowImages[i], slideshowImages[j]] = [slideshowImages[j], slideshowImages[i]];
@@ -1158,7 +1137,6 @@
       document.getElementById('slideshow-overlay').classList.add('active');
       document.body.classList.add('no-scroll');
       
-      // 3. הפעלת המוזיקה
       const bgMusic = document.getElementById('slideshow-audio');
       if (bgMusic) {
         bgMusic.currentTime = 0;
@@ -1167,21 +1145,20 @@
       }
       
       showNextSlide();
-      // משנה תמונה כל 4.5 שניות
       slideshowInterval = setInterval(showNextSlide, 4500); 
     }
 
     function showNextSlide() {
       const imgEl = document.getElementById('slideshow-img');
-      imgEl.classList.remove('show'); // מתחיל תהליך דעיכה החוצה
+      imgEl.classList.remove('show'); 
       
       setTimeout(() => {
-        imgEl.src = slideshowImages[slideshowCurrentIdx].url;
+        imgEl.src = `https://wsrv.nl/?url=${encodeURIComponent(slideshowImages[slideshowCurrentIdx].url)}&w=1600&q=80&output=webp`;
         imgEl.onload = () => {
-          imgEl.classList.add('show'); // מתחיל הנפשת כניסה והגדלה
+          imgEl.classList.add('show'); 
         };
         slideshowCurrentIdx = (slideshowCurrentIdx + 1) % slideshowImages.length;
-      }, 800); // מחכה שהדעיכה הקודמת תסתיים
+      }, 800); 
     }
 
     function stopSlideshow(event) {
@@ -1196,13 +1173,11 @@
       document.getElementById('slideshow-img').classList.remove('show');
     }
     
-    // סגירת המצגת גם בלחיצה על Escape במקלדת
     document.addEventListener('keydown', (e) => {
        if (e.key === 'Escape' && document.getElementById('slideshow-overlay').classList.contains('active')) {
            stopSlideshow(e);
        }
     });
-    // --- סוף מערכת המצגת ---
 
     let dataLoaded = false;
 
